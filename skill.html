@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Skill</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Select Skill</h1>
+        <div class="skill-options">
+            <a href="theme.html?lang=Gujarati&skill=Reading" class="btn btn-primary">Reading</a>
+            <a href="theme.html?lang=Gujarati&skill=Speaking" class="btn btn-primary">Speaking</a>
+            <a href="index.html" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+    <script>
+        // Set language from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const language = urlParams.get('lang');
+        
+        // Update all links with the language parameter
+        document.querySelectorAll('a[href^="theme.html"]').forEach(link => {
+            const href = new URL(link.href);
+            href.searchParams.set('lang', language);
+            link.href = href.toString();
+        });
+    </script>
+</body>
+</html>
