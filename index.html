@@ -10,22 +10,16 @@
     <div class="container">
         <h1>Choose Your Language</h1>
         <p>Select the language you want to practice:</p>
-        
-        <div class="language-buttons">
-            <button onclick="selectLanguage('Gujarati')">Gujarati</button>
-            <button onclick="selectLanguage('Punjabi')">Punjabi</button>
-            <button onclick="selectLanguage('Hindi')">Hindi</button>
-            <button onclick="selectLanguage('Spanish')">Spanish</button>
-            <button onclick="selectLanguage('French')">French</button>
-        </div>
+        <div id="language-options" class="language-options"></div>
     </div>
-
     <script src="script.js"></script>
     <script>
-        function selectLanguage(language) {
-            localStorage.setItem('selectedLanguage', language);
-            window.location.href = 'skill.html';
-        }
+        // After script.js loads, call the function to populate languages
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof loadLanguageSelection === 'function') {
+                loadLanguageSelection();
+            }
+        });
     </script>
 </body>
 </html>
