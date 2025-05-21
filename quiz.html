@@ -10,13 +10,7 @@
     <div class="container">
         <div class="header-with-back">
             <a href="#" id="back-button" class="back-button">&larr;</a>
-            <div class="quiz-header">
-                <h1 id="quiz-title">Quiz</h1>
-                <div class="progress-bar">
-                    <div class="progress" id="progress-bar"></div>
-                </div>
-                <span id="question-counter">1/10</span>
-            </div>
+            <h1 id="quiz-title">Quiz</h1>
         </div>
         
         <div id="quiz-container">
@@ -34,13 +28,10 @@
         // Quiz state
         let questions = [];
         let currentQuestionIndex = 0;
-        let score = 0;
         
         // DOM elements
         const quizContainer = document.getElementById('quiz-container');
         const backButton = document.getElementById('back-button');
-        const progressBar = document.getElementById('progress-bar');
-        const questionCounter = document.getElementById('question-counter');
         const quizTitle = document.getElementById('quiz-title');
         
         // Initialize quiz
@@ -50,6 +41,7 @@
             
             // Set quiz title
             quizTitle.textContent = `${language} - ${theme.replace('_', ' ')}`;
+            quizTitle.style.color = "var(--deep-blue)";
             
             // Load questions
             loadQuestions();
@@ -68,34 +60,24 @@
         
         function renderQuestion() {
             const question = questions[currentQuestionIndex];
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            
-            // Update UI elements
-            progressBar.style.width = `${progress}%`;
-            questionCounter.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
             
             quizContainer.innerHTML = `
                 <div class="question-container">
-                    <div class="question-text">
-                        <h2>${question.questionText}</h2>
-                    </div>
+                    <h2>${question.question}</h2>
                     
                     <div class="question-audio">
                         <audio controls id="question-audio">
                             <source src="data/${language}/${skill}/${theme}/audio/q${currentQuestionIndex + 1}.mp3" type="audio/mpeg">
-                            Your browser does not support audio.
                         </audio>
                     </div>
                     
                     <div class="options-container" id="options-container"></div>
                     
-                    <div class="feedback" id="feedback"></div>
+                    <div class="feedback" id="feedback" style="display:none"></div>
                     
-                    <div class="navigation">
-                        <button class="btn btn-primary" id="next-btn" disabled>
-                            ${currentQuestionIndex === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
-                        </button>
-                    </div>
+                    <button class="btn btn-primary" id="next-btn" disabled>
+                        ${currentQuestionIndex === questions.length - 1 ? 'Finish' : 'Next'}
+                    </button>
                 </div>
             `;
             
@@ -105,14 +87,11 @@
             
             // Add options
             const optionsContainer = document.getElementById('options-container');
-            question.options.forEach((option, index) => {
+            question.choices.forEach((choice, index) => {
                 const optionBtn = document.createElement('button');
                 optionBtn.className = 'option-btn';
-                optionBtn.innerHTML = `
-                    <span class="option-number">${index + 1}.</span>
-                    <span class="option-text">${option.text}</span>
-                `;
-                optionBtn.addEventListener('click', () => selectAnswer(option));
+                optionBtn.textContent = choice;
+                optionBtn.addEventListener('click', () => selectAnswer(choice));
                 optionsContainer.appendChild(optionBtn);
             });
             
@@ -120,7 +99,8 @@
             document.getElementById('next-btn').addEventListener('click', nextQuestion);
         }
         
-        function selectAnswer(selectedOption) {
+        function selectAnswer(selectedChoice) {
+            const question = questions[currentQuestionIndex];
             const options = document.querySelectorAll('.option-btn');
             const feedback = document.getElementById('feedback');
             const nextBtn = document.getElementById('next-btn');
@@ -130,31 +110,20 @@
             
             // Mark correct/incorrect answers
             options.forEach(btn => {
-                const optionText = btn.querySelector('.option-text').textContent;
-                const correctAnswer = questions[currentQuestionIndex].options.find(opt => opt.correct).text;
-                
-                if (optionText === correctAnswer) {
+                if (btn.textContent === question.answer) {
                     btn.classList.add('correct');
-                } else if (optionText === selectedOption.text) {
+                } else if (btn.textContent === selectedChoice) {
                     btn.classList.add('incorrect');
                 }
             });
             
             // Show feedback
             feedback.innerHTML = `
-                <strong>${selectedOption.correct ? 'Correct!' : 'Incorrect'}</strong>
-                <p>${selectedOption.explanation}</p>
+                <p><strong>${selectedChoice === question.answer ? 'Correct!' : 'Incorrect'}</strong></p>
+                <p>${question.explanation}</p>
             `;
-            feedback.classList.add(selectedOption.correct ? 'correct' : 'incorrect');
             feedback.style.display = 'block';
-            
-            // Enable next button
             nextBtn.disabled = false;
-            
-            // Update score
-            if (selectedOption.correct) {
-                score++;
-            }
         }
         
         function nextQuestion() {
@@ -169,20 +138,14 @@
         
         function showResults() {
             quizContainer.innerHTML = `
-                <div class="results-container">
+                <div class="results-container" style="background:var(--sunshine-yellow);padding:20px;border-radius:10px;color:var(--dark-text)">
                     <h2>Quiz Completed!</h2>
-                    <div class="score-display">
-                        Your score: <span class="score">${score}</span> / <span class="total">${questions.length}</span>
-                    </div>
-                    <div class="result-actions">
+                    <div class="result-actions" style="margin-top:20px">
                         <a href="quiz.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}&theme=${encodeURIComponent(theme)}" class="btn btn-primary">
-                            Retry Quiz
+                            Try Again
                         </a>
                         <a href="theme.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}" class="btn btn-secondary">
-                            Choose Another Theme
-                        </a>
-                        <a href="index.html" class="btn btn-secondary">
-                            New Language
+                            New Theme
                         </a>
                     </div>
                 </div>
@@ -191,9 +154,9 @@
         
         function showError() {
             quizContainer.innerHTML = `
-                <div class="error-message">
-                    <p>Could not load questions. Please try again later.</p>
-                    <a href="theme.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}" class="btn btn-secondary">
+                <div class="error-message" style="background:var(--vibrant-red);color:white;padding:20px;border-radius:10px">
+                    <p>Error loading questions. Please try again.</p>
+                    <a href="theme.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}" class="btn btn-secondary" style="margin-top:15px">
                         Back to Themes
                     </a>
                 </div>
