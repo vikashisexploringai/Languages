@@ -16,7 +16,7 @@ const quizContainer = document.getElementById('quiz-container');
 const resultContainer = document.getElementById('result-container');
 
 // Available languages
-const languages = ['Gujarati', 'Punjabi', 'Hindi', 'Spanish', 'French'];
+const languages = ['Gujarati', 'Punjabi'];
 
 // Initialize the app
 function init() {
