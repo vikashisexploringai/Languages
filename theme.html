@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Theme</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Select Theme</h1>
-        <div class="theme-options" id="theme-container">
-            <!-- Themes will be loaded dynamically -->
+        <div class="header-with-back">
+            <a href="skill.html" class="back-button">&larr;</a>
+            <h1>Select Theme</h1>
         </div>
-        <a href="skill.html" class="btn btn-secondary">Back</a>
+        
+        <div class="theme-options" id="theme-container">
+            <!-- Themes loaded dynamically -->
+        </div>
     </div>
 
     <script>
@@ -21,7 +23,6 @@
         const language = urlParams.get('lang');
         const skill = urlParams.get('skill');
         
-        // Available themes for each skill
         const themes = {
             'Reading': ['Word_Formation', 'Letter_Recognition'],
             'Speaking': ['Vocabulary', 'Pronunciation']
@@ -29,14 +30,17 @@
         
         const themeContainer = document.getElementById('theme-container');
         
-        // Generate theme buttons
+        // Generate theme buttons with proper back link
         themes[skill].forEach(theme => {
             const themeBtn = document.createElement('a');
-            themeBtn.href = `quiz.html?lang=${language}&skill=${skill}&theme=${theme}`;
+            themeBtn.href = `quiz.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}&theme=${encodeURIComponent(theme)}`;
             themeBtn.className = 'btn btn-primary theme-btn';
             themeBtn.textContent = theme.replace('_', ' ');
             themeContainer.appendChild(themeBtn);
         });
+        
+        // Set proper back link
+        document.querySelector('.back-button').href = `skill.html?lang=${encodeURIComponent(language)}`;
     </script>
 </body>
 </html>
