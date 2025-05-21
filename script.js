@@ -102,7 +102,7 @@ function loadThemeSelection() {
 // Load the quiz
 async function loadQuiz() {
     try {
-        const response = await fetch(`data/${currentState.language}/${currentState.skill}/${currentState.theme}.json`);
+        const response = await fetch(`data/${currentState.language}/${currentState.skill}/${currentState.theme}/questions.json`);
         currentState.questions = await response.json();
         currentState.currentQuestionIndex = 0;
         currentState.score = 0;
@@ -150,7 +150,7 @@ function renderQuestion() {
     
     // Set up audio
     const audioBtn = document.getElementById('play-audio');
-    const audio = new Audio(`data/${currentState.language}/audio/${question.questionAudio}`);
+    const audio = new Audio(`data/${currentState.language}/${currentState.skill}/${currentState.theme}/audio/q${currentQuestionIndex + 1}.mp3`);
     
     audioBtn.addEventListener('click', () => {
         audio.currentTime = 0;
