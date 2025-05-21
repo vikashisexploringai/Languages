@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose Language</title>
+    <title>Language Learning Quiz - Choose Language</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>Choose Your Language</h1>
-        <div class="language-grid">
-            <a href="skill.html?lang=Gujarati" class="language-card">Gujarati</a>
-            <a href="skill.html?lang=Punjabi" class="language-card">Punjabi</a>
-            <a href="skill.html?lang=Hindi" class="language-card">Hindi</a>
-            <a href="skill.html?lang=Spanish" class="language-card">Spanish</a>
-            <!-- Add more languages as needed -->
+        <p>Select the language you want to practice:</p>
+        
+        <div class="language-buttons">
+            <button onclick="selectLanguage('Gujarati')">Gujarati</button>
+            <button onclick="selectLanguage('Punjabi')">Punjabi</button>
+            <button onclick="selectLanguage('Hindi')">Hindi</button>
+            <button onclick="selectLanguage('Spanish')">Spanish</button>
+            <button onclick="selectLanguage('French')">French</button>
         </div>
     </div>
+
+    <script src="script.js"></script>
+    <script>
+        function selectLanguage(language) {
+            localStorage.setItem('selectedLanguage', language);
+            window.location.href = 'skill.html';
+        }
+    </script>
 </body>
 </html>
