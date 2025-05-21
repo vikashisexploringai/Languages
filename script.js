@@ -35,7 +35,12 @@ function showSection(sectionId) {
 
 // Load language selection screen
 function loadLanguageSelection() {
-    languageContainer.innerHTML = '<h1>Choose Your Language</h1>';
+    languageContainer.innerHTML = `
+        <h1>Choose Your Language</h1>
+        <div class="language-buttons-container" id="language-buttons"></div>
+    `;
+    
+    const buttonsContainer = document.getElementById('language-buttons');
     
     languages.forEach(language => {
         const langBtn = document.createElement('button');
@@ -46,7 +51,7 @@ function loadLanguageSelection() {
             showSection('skill-container');
             loadSkillSelection();
         });
-        languageContainer.appendChild(langBtn);
+        buttonsContainer.appendChild(langBtn);
     });
 }
 
