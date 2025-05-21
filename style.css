@@ -411,3 +411,57 @@ button:hover {
 .audio-playing {
     animation: pulse 1.5s infinite;
 }
+
+/* Language Selection Buttons */
+.language-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem; /* Increased from default 1rem */
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.language-btn {
+    padding: 1.2rem; /* Slightly larger padding */
+    margin: 0; /* Remove any default margins */
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border-radius: var(--border-radius);
+    background-color: var(--tertiary-bg);
+    color: var(--text-color);
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.language-btn:hover {
+    background-color: #1a5a8a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Next Button Styles */
+#next-btn {
+    background-color: var(--accent-color); /* Your yellow color */
+    color: #1a1a2e; /* Dark text for contrast */
+    font-weight: bold;
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#next-btn:hover {
+    background-color: #e6a917; /* Slightly darker yellow */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#next-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
