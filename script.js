@@ -87,7 +87,7 @@ function loadSkillSelection() {
 function loadThemeSelection() {
     // Themes would vary by language and skill
     const themes = {
-        'Reading': ['Word_Formation', 'Letter_Recognition'],
+        'Reading': ['Letter_Recognition', 'Word_Formation'],
         'Speaking': ['Vocabulary', 'Pronunciation']
     };
     
