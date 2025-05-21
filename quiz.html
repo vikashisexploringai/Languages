@@ -3,124 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
+    <title>Language Quiz</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <style>
+        /* Quiz-specific styles */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            flex-grow: 1;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin: 0 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #3498db;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .question-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .question-audio {
+            margin: 15px 0;
+        }
+        
+        audio {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div id="quiz-container">
-            <!-- Quiz will be loaded dynamically -->
+        <div class="header-with-back">
+            <a href="#" id="back-button" class="back-button">&larr;</a>
+            <div class="quiz-header">
+                <h1 id="quiz-title">Quiz</h1>
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                <span id="question-counter">1/10</span>
+            </div>
         </div>
-        <a href="theme.html" class="btn btn-secondary" id="back-btn">Back</a>
+        
+        <div id="quiz-container">
+            <!-- Dynamic content will load here -->
+            <div class="loader">Loading questions...</div>
+        </div>
     </div>
 
     <script>
+        // Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const language = urlParams.get('lang');
         const skill = urlParams.get('skill');
         const theme = urlParams.get('theme');
         
-        // Set back button to maintain navigation history
-        document.getElementById('back-btn').href = 
-            `theme.html?lang=${language}&skill=${skill}`;
+        // Quiz state
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
         
-        // Load quiz questions
-        async function loadQuiz() {
+        // DOM elements
+        const quizContainer = document.getElementById('quiz-container');
+        const backButton = document.getElementById('back-button');
+        const progressBar = document.getElementById('progress-bar');
+        const questionCounter = document.getElementById('question-counter');
+        const quizTitle = document.getElementById('quiz-title');
+        
+        // Initialize quiz
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set back button URL
+            backButton.href = `theme.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}`;
+            
+            // Set quiz title
+            quizTitle.textContent = `${language} - ${theme.replace('_', ' ')}`;
+            
+            // Load questions
+            loadQuestions();
+        });
+        
+        async function loadQuestions() {
             try {
                 const response = await fetch(`data/${language}/${skill}/${theme}.json`);
-                const questions = await response.json();
-                renderQuestion(questions, 0);
+                questions = await response.json();
+                renderQuestion();
             } catch (error) {
-                console.error('Error loading quiz:', error);
-                document.getElementById('quiz-container').innerHTML = `
-                    <p>Error loading questions. Please try again.</p>
+                console.error('Error loading questions:', error);
+                quizContainer.innerHTML = `
+                    <div class="error-message">
+                        <p>Could not load questions. Please try again later.</p>
+                        <a href="theme.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}" class="btn btn-secondary">
+                            Back to Themes
+                        </a>
+                    </div>
                 `;
             }
         }
         
-        function renderQuestion(questions, index) {
-            const question = questions[index];
-            const isLastQuestion = index === questions.length - 1;
+        function renderQuestion() {
+            const question = questions[currentQuestionIndex];
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
             
-            document.getElementById('quiz-container').innerHTML = `
+            // Update progress
+            progressBar.style.width = `${progress}%`;
+            questionCounter.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
+            
+            quizContainer.innerHTML = `
                 <div class="question-container">
-                    <div class="question-header">
-                        <h2 id="question-text">${question.questionText}</h2>
-                        <button class="audio-btn" id="play-audio">
-                            <img src="assets/icons/volume.svg" alt="Play audio">
+                    <div class="question-text">
+                        <h2>${question.questionText}</h2>
+                    </div>
+                    
+                    <div class="question-audio">
+                        <audio controls id="question-audio">
+                            <source src="data/${language}/audio/${question.questionAudio}" type="audio/mpeg">
+                            Your browser does not support audio.
+                        </audio>
+                    </div>
+                    
+                    <div class="options-container" id="options-container"></div>
+                    
+                    <div class="feedback" id="feedback"></div>
+                    
+                    <div class="navigation">
+                        <button class="btn btn-primary" id="next-btn" disabled>
+                            ${currentQuestionIndex === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
                         </button>
                     </div>
-                    <div class="options-container" id="options-container"></div>
-                    <div class="feedback" id="feedback"></div>
-                </div>
-                <div class="navigation">
-                    <button class="btn btn-primary" id="next-btn" disabled>
-                        ${isLastQuestion ? 'Finish' : 'Next'}
-                    </button>
                 </div>
             `;
+            
+            // Auto-play question audio
+            const audioElement = document.getElementById('question-audio');
+            audioElement.play().catch(e => console.log("Auto-play prevented:", e));
             
             // Add options
             const optionsContainer = document.getElementById('options-container');
-            question.options.forEach(option => {
+            question.options.forEach((option, index) => {
                 const optionBtn = document.createElement('button');
                 optionBtn.className = 'option-btn';
-                optionBtn.textContent = option.text;
-                optionBtn.addEventListener('click', () => checkAnswer(option.correct, option.explanation));
+                optionBtn.innerHTML = `
+                    <span class="option-number">${index + 1}.</span>
+                    <span class="option-text">${option.text}</span>
+                `;
+                optionBtn.addEventListener('click', () => selectAnswer(option));
                 optionsContainer.appendChild(optionBtn);
             });
             
-            // Set up audio
-            const audioBtn = document.getElementById('play-audio');
-            const audio = new Audio(`data/${language}/audio/${question.questionAudio}`);
-            audioBtn.addEventListener('click', () => audio.play());
-            audio.play(); // Auto-play
-            
-            // Next button functionality
-            document.getElementById('next-btn').addEventListener('click', () => {
-                if (isLastQuestion) {
-                    showResults(questions.length);
-                } else {
-                    renderQuestion(questions, index + 1);
-                }
-            });
+            // Set up next button
+            document.getElementById('next-btn').addEventListener('click', nextQuestion);
         }
         
-        function checkAnswer(isCorrect, explanation) {
+        function selectAnswer(selectedOption) {
+            const options = document.querySelectorAll('.option-btn');
             const feedback = document.getElementById('feedback');
             const nextBtn = document.getElementById('next-btn');
             
-            document.querySelectorAll('.option-btn').forEach(btn => {
-                btn.disabled = true;
-                if (btn.textContent === currentCorrectAnswer) {
+            // Disable all options
+            options.forEach(btn => btn.disabled = true);
+            
+            // Mark correct/incorrect answers
+            options.forEach(btn => {
+                const optionText = btn.querySelector('.option-text').textContent;
+                const correctAnswer = questions[currentQuestionIndex].options.find(opt => opt.correct).text;
+                
+                if (optionText === correctAnswer) {
                     btn.classList.add('correct');
+                } else if (optionText === selectedOption.text) {
+                    btn.classList.add('incorrect');
                 }
             });
             
-            feedback.textContent = explanation;
-            feedback.classList.add(isCorrect ? 'correct' : 'incorrect');
+            // Show feedback
+            feedback.innerHTML = `
+                <strong>${selectedOption.correct ? 'Correct!' : 'Incorrect'}</strong>
+                <p>${selectedOption.explanation}</p>
+            `;
+            feedback.classList.add(selectedOption.correct ? 'correct' : 'incorrect');
             feedback.style.display = 'block';
+            
+            // Enable next button
             nextBtn.disabled = false;
+            
+            // Update score
+            if (selectedOption.correct) {
+                score++;
+            }
         }
         
-        function showResults(totalQuestions) {
-            document.getElementById('quiz-container').innerHTML = `
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < questions.length) {
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+        
+        function showResults() {
+            quizContainer.innerHTML = `
                 <div class="results-container">
                     <h2>Quiz Completed!</h2>
-                    <p>You've finished all questions.</p>
-                    <a href="theme.html?lang=${language}&skill=${skill}" class="btn btn-primary">
-                        Try Another Theme
-                    </a>
-                    <a href="index.html" class="btn btn-secondary">
-                        Choose New Language
-                    </a>
+                    <div class="score-display">
+                        Your score: <span class="score">${score}</span> / <span class="total">${questions.length}</span>
+                    </div>
+                    <div class="result-actions">
+                        <a href="quiz.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}&theme=${encodeURIComponent(theme)}" class="btn btn-primary">
+                            Retry Quiz
+                        </a>
+                        <a href="theme.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}" class="btn btn-secondary">
+                            Choose Another Theme
+                        </a>
+                        <a href="index.html" class="btn btn-secondary">
+                            New Language
+                        </a>
+                    </div>
                 </div>
             `;
         }
-        
-        // Initialize quiz
-        loadQuiz();
     </script>
 </body>
 </html>
