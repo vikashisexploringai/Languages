@@ -1,1 +1,1 @@
-# Scipts
+# Languages
