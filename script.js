@@ -168,7 +168,7 @@ function renderQuestion() {
                 <p id="explanation-text">${question.explanation || ''}</p>
                 <div class="quiz-navigation">
                     <button class="btn btn-accent" id="next-btn">Next Question</button>
-                    <button class="btn btn-secondary" id="finish-btn">Finish Quiz</button>
+                    <button class="btn btn-accent" id="finish-btn">Finish Quiz</button>
                 </div>
             </div>
         </div>
