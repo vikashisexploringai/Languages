@@ -143,3 +143,32 @@ h1 {
 .btn-secondary:hover {
     background: #7f8c8d;
 }
+
+/* Add these to your existing styles */
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+a.language-card {
+    display: block;
+    text-decoration: none;
+    color: white;
+}
+
+.theme-btn {
+    display: block;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+}
+
+.results-container {
+    text-align: center;
+}
+
+.results-container a {
+    display: inline-block;
+    margin: 0.5rem;
+    text-decoration: none;
+}
