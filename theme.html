@@ -3,44 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose Theme</title>
+    <title>Language Learning Quiz - Choose Theme</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <div class="header-with-back">
-            <a href="skill.html" class="back-button">&larr;</a>
-            <h1>Select Theme</h1>
+        <h1>Choose Your Theme</h1>
+        <p>Select the theme you want to practice:</p>
+        
+        <div id="theme-buttons" class="theme-buttons">
+            <!-- Themes will be loaded dynamically based on language and skill -->
         </div>
         
-        <div class="theme-options" id="theme-container">
-            <!-- Themes loaded dynamically -->
-        </div>
+        <button class="back-button" onclick="window.location.href='skill.html'">Back</button>
     </div>
 
+    <script src="script.js"></script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const language = urlParams.get('lang');
-        const skill = urlParams.get('skill');
-        
-        const themes = {
-            'Reading': ['Word_Formation', 'Letter_Recognition'],
-            'Speaking': ['Vocabulary', 'Pronunciation']
-        };
-        
-        const themeContainer = document.getElementById('theme-container');
-        
-        // Generate theme buttons with proper back link
-        themes[skill].forEach(theme => {
-            const themeBtn = document.createElement('a');
-            themeBtn.href = `quiz.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}&theme=${encodeURIComponent(theme)}`;
-            themeBtn.className = 'btn btn-primary theme-btn';
-            themeBtn.textContent = theme.replace('_', ' ');
-            themeContainer.appendChild(themeBtn);
+        document.addEventListener('DOMContentLoaded', function() {
+            const language = localStorage.getItem('selectedLanguage');
+            const skill = localStorage.getItem('selectedSkill');
+            
+            if (!language || !skill) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Load available themes based on language and skill
+            loadThemes(language, skill);
         });
         
-        // Set proper back link
-        document.querySelector('.back-button').href = `skill.html?lang=${encodeURIComponent(language)}`;
+        function loadThemes(language, skill) {
+            const themeButtons = document.getElementById('theme-buttons');
+            themeButtons.innerHTML = '<div class="loading-spinner"></div><p class="loading-text">Loading themes...</p>';
+            
+            // In a real app, you would fetch this from your server or predefined list
+            // For demo purposes, we'll use a simple mapping
+            setTimeout(() => {
+                const themes = getThemesForSkill(language, skill);
+                
+                themeButtons.innerHTML = '';
+                themes.forEach(theme => {
+                    const button = document.createElement('button');
+                    button.textContent = theme.replace(/_/g, ' ');
+                    button.onclick = () => selectTheme(theme);
+                    themeButtons.appendChild(button);
+                });
+            }, 500);
+        }
+        
+        function getThemesForSkill(language, skill) {
+            // This would be replaced with actual theme detection from your folder structure
+            if (skill === 'Reading') {
+                return ['Letter_Recognition', 'Word_Formation'];
+            } else {
+                return ['Vocabulary', 'Pronunciation'];
+            }
+        }
+        
+        function selectTheme(theme) {
+            localStorage.setItem('selectedTheme', theme);
+            window.location.href = 'quiz.html';
+        }
     </script>
 </body>
 </html>
