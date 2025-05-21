@@ -495,3 +495,34 @@ button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* Quiz Navigation */
+.quiz-navigation {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.quiz-navigation .btn {
+    flex: 1;
+}
+
+/* Results Page */
+.score-display {
+    background-color: var(--tertiary-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0;
+}
+
+.score-display p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.performance-rating {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+}
