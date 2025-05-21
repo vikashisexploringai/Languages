@@ -5,46 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Language Quiz</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Quiz-specific styles */
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .progress-bar {
-            flex-grow: 1;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            margin: 0 20px;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            background: #3498db;
-            width: 0%;
-            transition: width 0.3s;
-        }
-        
-        .question-container {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .question-audio {
-            margin: 15px 0;
-        }
-        
-        audio {
-            width: 100%;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -60,7 +20,6 @@
         </div>
         
         <div id="quiz-container">
-            <!-- Dynamic content will load here -->
             <div class="loader">Loading questions...</div>
         </div>
     </div>
@@ -98,19 +57,12 @@
         
         async function loadQuestions() {
             try {
-                const response = await fetch(`data/${language}/${skill}/${theme}.json`);
+                const response = await fetch(`data/${language}/${skill}/${theme}/questions.json`);
                 questions = await response.json();
                 renderQuestion();
             } catch (error) {
                 console.error('Error loading questions:', error);
-                quizContainer.innerHTML = `
-                    <div class="error-message">
-                        <p>Could not load questions. Please try again later.</p>
-                        <a href="theme.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}" class="btn btn-secondary">
-                            Back to Themes
-                        </a>
-                    </div>
-                `;
+                showError();
             }
         }
         
@@ -118,7 +70,7 @@
             const question = questions[currentQuestionIndex];
             const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
             
-            // Update progress
+            // Update UI elements
             progressBar.style.width = `${progress}%`;
             questionCounter.textContent = `${currentQuestionIndex + 1}/${questions.length}`;
             
@@ -130,7 +82,7 @@
                     
                     <div class="question-audio">
                         <audio controls id="question-audio">
-                            <source src="data/${language}/audio/${question.questionAudio}" type="audio/mpeg">
+                            <source src="data/${language}/${skill}/${theme}/audio/q${currentQuestionIndex + 1}.mp3" type="audio/mpeg">
                             Your browser does not support audio.
                         </audio>
                     </div>
@@ -233,6 +185,17 @@
                             New Language
                         </a>
                     </div>
+                </div>
+            `;
+        }
+        
+        function showError() {
+            quizContainer.innerHTML = `
+                <div class="error-message">
+                    <p>Could not load questions. Please try again later.</p>
+                    <a href="theme.html?lang=${encodeURIComponent(language)}&skill=${encodeURIComponent(skill)}" class="btn btn-secondary">
+                        Back to Themes
+                    </a>
                 </div>
             `;
         }
