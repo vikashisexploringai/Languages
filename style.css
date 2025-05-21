@@ -220,3 +220,32 @@ a.language-card {
     justify-content: space-between;
     margin-top: 30px;
 }
+/* Add these to your existing style.css */
+.back-button {
+    display: inline-block;
+    color: #3498db;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background-color: #f0f0f0;
+    transform: translateX(-3px);
+}
+
+.header-with-back {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* For the larger version */
+.back-button-lg {
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+}
