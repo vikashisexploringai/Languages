@@ -465,3 +465,33 @@ button:hover {
     transform: translateY(0);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
+
+
+/* Language Selection Container */
+.language-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* This adds space between buttons */
+    margin: 2rem 0;
+    width: 100%;
+    max-width: 500px; /* Optional: controls max button width */
+}
+
+/* Language Button Styling */
+.language-btn {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    background-color: var(--tertiary-bg);
+    color: var(--text-color);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.language-btn:hover {
+    background-color: #1a5a8a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
