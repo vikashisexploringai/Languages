@@ -389,9 +389,10 @@ button:hover {
 }
 
 .audio-replay-btn img {
-    width: 18px;
-    height: 18px;
-    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+    width: 20px;
+    height: 20px;
+    /* Adjust color to match your theme */
+    filter: invert(85%) sepia(42%) saturate(719%) hue-rotate(334deg) brightness(102%) contrast(94%);
 }
 
 .audio-status {
