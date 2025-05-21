@@ -5,17 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Skill</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <style>
+        /* Style for larger back button */
+        .back-button-lg {
+            font-size: 28px;  /* Increased from default 24px */
+            width: 48px;      /* Increased from default 40px */
+            height: 48px;     /* Increased from default 40px */
+            line-height: 48px; /* Adjusted for vertical centering */
+            margin-right: 10px;
+        }
+        
+        .header-with-back {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Select Skill</h1>
+        <div class="header-with-back">
+            <a href="index.html" class="back-button back-button-lg">&larr;</a>
+            <h1>Select Skill</h1>
+        </div>
+        
         <div class="skill-options">
-            <a href="theme.html?lang=Gujarati&skill=Reading" class="btn btn-primary">Reading</a>
-            <a href="theme.html?lang=Gujarati&skill=Speaking" class="btn btn-primary">Speaking</a>
-            <a href="index.html" class="btn btn-secondary">Back</a>
+            <a href="theme.html?lang=Gujarati&skill=Reading" class="btn btn-primary" id="reading-btn">Reading</a>
+            <a href="theme.html?lang=Gujarati&skill=Speaking" class="btn btn-primary" id="speaking-btn">Speaking</a>
         </div>
     </div>
+
     <script>
         // Set language from URL parameter
         const urlParams = new URLSearchParams(window.location.search);
