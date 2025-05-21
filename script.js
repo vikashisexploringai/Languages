@@ -135,38 +135,88 @@ async function loadQuiz() {
     }
 }
 
-// Render the current question
 function renderQuestion() {
     const question = currentState.questions[currentState.currentQuestionIndex];
     const progress = ((currentState.currentQuestionIndex) / currentState.questions.length) * 100;
     
+    // Build question HTML with audio replay button
     quizContainer.innerHTML = `
         <div class="progress-container">
             <div class="progress-bar" style="width: ${progress}%"></div>
         </div>
         <div class="question-container">
             <h2 id="question-text">${question.question}</h2>
+            
+            ${question.audio ? `
+            <div class="audio-controls">
+                <button class="audio-replay-btn" id="replay-audio">
+                    <img src="assets/icons/replay.svg" alt="Replay audio">
+                    Play Again
+                </button>
+                <span class="audio-status" id="audio-status"></span>
+            </div>
+            ` : ''}
+            
             <div class="options-container" id="options-container"></div>
             <div class="explanation-container hidden" id="explanation-container">
                 <h3>Explanation</h3>
-                <p id="explanation-text"></p>
+                <p id="explanation-text">${question.explanation || ''}</p>
                 <button class="btn" id="next-btn">Next Question</button>
             </div>
         </div>
     `;
-    
-    // Add options
+
+    // Add answer options
     const optionsContainer = document.getElementById('options-container');
-    question.choices.forEach((choice, index) => {
+    question.choices.forEach((choice) => {
         const optionBtn = document.createElement('button');
         optionBtn.className = 'option-btn';
         optionBtn.textContent = choice;
         optionBtn.addEventListener('click', () => checkAnswer(choice, question.answer, question.explanation));
         optionsContainer.appendChild(optionBtn);
     });
-    
+
+    // Set up audio functionality if audio exists for this question
+    if (question.audio) {
+        setupQuestionAudio(question.audio);
+    }
+
     // Set up next button
     document.getElementById('next-btn').addEventListener('click', nextQuestion);
+}
+
+// Helper function for audio functionality
+function setupQuestionAudio(audioFile) {
+    const replayBtn = document.getElementById('replay-audio');
+    const audioStatus = document.getElementById('audio-status');
+    const audioPath = `data/${currentState.language}/${currentState.skill}/${currentState.theme}/audio/${audioFile}`;
+    const audio = new Audio(audioPath);
+    
+    // Auto-play when question loads (with error handling)
+    audio.play()
+        .then(() => {
+            audioStatus.textContent = "Playing...";
+            audio.onended = () => audioStatus.textContent = "";
+        })
+        .catch(e => {
+            console.error("Auto-play prevented:", e);
+            audioStatus.textContent = "Click Play Again to listen";
+        });
+    
+    // Set up replay button
+    replayBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        audio.currentTime = 0;
+        audio.play()
+            .then(() => {
+                audioStatus.textContent = "Playing...";
+                audio.onended = () => audioStatus.textContent = "";
+            })
+            .catch(e => {
+                console.error("Playback failed:", e);
+                audioStatus.textContent = "Playback failed";
+            });
+    });
 }
 
 // Check the selected answer
