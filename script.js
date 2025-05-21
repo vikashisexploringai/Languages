@@ -32,27 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ---- STEP 1: Language Selection ----
 function loadLanguageSelection() {
-    quizContainer.innerHTML = `
-        <h1>Select Language</h1>
-        <div class="language-options">
-            ${Object.keys(languages).map(lang => `
-                <button class="btn btn-primary language-btn" data-lang="${languages[lang]}">${lang}</button>
-            `).join('')}
-        </div>
-    `;
-    quizContainer.style.display = 'block';
-    currentState.language = null;
-    currentState.skill = null;
-    currentState.theme = null;
-    currentState.questions = [];
-    currentState.currentQuestionIndex = 0;
-    currentState.score = 0;
-
-    document.querySelectorAll('.language-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            currentState.language = e.target.dataset.lang;
-            loadSkillSelection();
-        });
+    const languageOptions = document.getElementById('language-options');
+    if (!languageOptions) return;
+    languageOptions.innerHTML = '';
+    Object.keys(languages).forEach(function(lang) {
+        const btn = document.createElement('button');
+        btn.textContent = lang;
+        btn.className = 'btn btn-primary language-btn';
+        btn.onclick = function () {
+            localStorage.setItem('selectedLanguage', languages[lang]);
+            // Continue to skill selection or quiz as appropriate
+            window.location.href = 'skill.html'; // or call loadSkillSelection();
+        };
+        languageOptions.appendChild(btn);
     });
 }
 
