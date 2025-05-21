@@ -1,1 +1,54 @@
-hh
+[
+    {
+        "questionText": "Which letter completes the word 'પ__ખ' to mean 'bird'?",
+        "questionAudio": "word_formation_q1.mp3",
+        "options": [
+            {
+                "text": "ં",
+                "correct": false,
+                "explanation": "Incorrect. 'પંખ' doesn't form a valid word."
+            },
+            {
+                "text": "ક",
+                "correct": false,
+                "explanation": "Incorrect. 'પખ' is incomplete."
+            },
+            {
+                "text": "ષ",
+                "correct": true,
+                "explanation": "Correct! 'પષ્ટ' means 'bird' in Gujarati."
+            },
+            {
+                "text": "ળ",
+                "correct": false,
+                "explanation": "Incorrect. 'પળખ' isn't a valid word."
+            }
+        ]
+    },
+    {
+        "questionText": "Form a word meaning 'water' from these letters: પ, ન, િ, જ",
+        "questionAudio": "word_formation_q2.mp3",
+        "options": [
+            {
+                "text": "પનિજ",
+                "correct": false,
+                "explanation": "Incorrect. This isn't the correct arrangement."
+            },
+            {
+                "text": "પાણી",
+                "correct": false,
+                "explanation": "Incorrect. This uses different letters."
+            },
+            {
+                "text": "પીજન",
+                "correct": false,
+                "explanation": "Incorrect. This arrangement doesn't mean anything."
+            },
+            {
+                "text": "પિનજ",
+                "correct": true,
+                "explanation": "Correct! 'પિનજ' is an old Gujarati word for water."
+            }
+        ]
+    }
+]
