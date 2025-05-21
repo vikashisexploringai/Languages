@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Learning Quiz - Choose Language</title>
+    <title>Language Learning Quiz</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Choose Your Language</h1>
-        <p>Select the language you want to practice:</p>
-        <div id="language-options" class="language-options"></div>
+        <div id="language-container" class="main-section"></div>
+        <div id="skill-container" class="main-section" style="display:none"></div>
+        <div id="theme-container" class="main-section" style="display:none"></div>
+        <div id="quiz-container" class="main-section" style="display:none"></div>
+        <div id="result-container" class="main-section" style="display:none"></div>
     </div>
     <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if (typeof loadLanguageSelection === 'function') {
-                loadLanguageSelection();
-            }
-        });
-    </script>
 </body>
 </html>
