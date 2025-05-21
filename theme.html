@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Theme</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Select Theme</h1>
+        <div class="theme-options" id="theme-container">
+            <!-- Themes will be loaded dynamically -->
+        </div>
+        <a href="skill.html" class="btn btn-secondary">Back</a>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const language = urlParams.get('lang');
+        const skill = urlParams.get('skill');
+        
+        // Available themes for each skill
+        const themes = {
+            'Reading': ['Word_Formation', 'Letter_Recognition'],
+            'Speaking': ['Vocabulary', 'Pronunciation']
+        };
+        
+        const themeContainer = document.getElementById('theme-container');
+        
+        // Generate theme buttons
+        themes[skill].forEach(theme => {
+            const themeBtn = document.createElement('a');
+            themeBtn.href = `quiz.html?lang=${language}&skill=${skill}&theme=${theme}`;
+            themeBtn.className = 'btn btn-primary theme-btn';
+            themeBtn.textContent = theme.replace('_', ' ');
+            themeContainer.appendChild(themeBtn);
+        });
+    </script>
+</body>
+</html>
