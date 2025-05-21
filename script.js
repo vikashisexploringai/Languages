@@ -1,6 +1,3 @@
-// script.js
-// Language Quiz App - Logic Only, UI dynamically loaded, themes/questions auto-detected
-
 // App state
 let currentState = {
     language: null,
@@ -12,221 +9,198 @@ let currentState = {
 };
 
 // DOM elements
-const container = document.querySelector('.container');
-const quizContainer = document.createElement('div');
-quizContainer.className = 'quiz-container';
-container.appendChild(quizContainer);
+const languageContainer = document.getElementById('language-container');
+const skillContainer = document.getElementById('skill-container');
+const themeContainer = document.getElementById('theme-container');
+const quizContainer = document.getElementById('quiz-container');
+const resultContainer = document.getElementById('result-container');
 
-// Languages (should match your folder names under /data/)
-const languages = {
-    'Gujarati': 'Gujarati',
-    'Punjabi': 'Punjabi',
-    'Hindi': 'Hindi',
-    'Spanish': 'Spanish'
-};
+// Available languages
+const languages = ['Gujarati', 'Punjabi', 'Hindi', 'Spanish', 'French'];
 
-// App entry
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize the app
+function init() {
+    // Set initial UI state
+    showSection('language-container');
     loadLanguageSelection();
-});
+}
 
-// ---- STEP 1: Language Selection ----
+// Show specific section and hide others
+function showSection(sectionId) {
+    document.querySelectorAll('.main-section').forEach(section => {
+        section.style.display = 'none';
+    });
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+// Load language selection screen
 function loadLanguageSelection() {
-    const languageOptions = document.getElementById('language-options');
-    if (!languageOptions) return;
-    languageOptions.innerHTML = '';
-    Object.keys(languages).forEach(function(lang) {
-        const btn = document.createElement('button');
-        btn.textContent = lang;
-        btn.className = 'btn btn-primary language-btn';
-        btn.onclick = function () {
-            localStorage.setItem('selectedLanguage', languages[lang]);
-            // Continue to skill selection or quiz as appropriate
-            window.location.href = 'skill.html'; // or call loadSkillSelection();
-        };
-        languageOptions.appendChild(btn);
+    languageContainer.innerHTML = '<h1>Choose Your Language</h1>';
+    
+    languages.forEach(language => {
+        const langBtn = document.createElement('button');
+        langBtn.className = 'language-btn';
+        langBtn.textContent = language;
+        langBtn.addEventListener('click', () => {
+            currentState.language = language;
+            showSection('skill-container');
+            loadSkillSelection();
+        });
+        languageContainer.appendChild(langBtn);
     });
 }
 
-// ---- STEP 2: Skill Selection ----
+// Load skill selection (Reading/Speaking)
 function loadSkillSelection() {
-    quizContainer.innerHTML = `
+    skillContainer.innerHTML = `
         <h1>Select Skill</h1>
         <div class="skill-options">
-            <button class="btn btn-primary" id="reading-btn">Reading</button>
-            <button class="btn btn-primary" id="speaking-btn">Speaking</button>
-            <button class="btn btn-secondary" id="back-btn">Back</button>
+            <button class="btn" id="reading-btn">Reading</button>
+            <button class="btn" id="speaking-btn">Speaking</button>
+            <button class="btn back-btn" id="back-btn">Back</button>
         </div>
     `;
-    document.getElementById('reading-btn').onclick = () => {
+    
+    document.getElementById('reading-btn').addEventListener('click', () => {
         currentState.skill = 'Reading';
+        showSection('theme-container');
         loadThemeSelection();
-    };
-    document.getElementById('speaking-btn').onclick = () => {
+    });
+    
+    document.getElementById('speaking-btn').addEventListener('click', () => {
         currentState.skill = 'Speaking';
+        showSection('theme-container');
         loadThemeSelection();
-    };
-    document.getElementById('back-btn').onclick = loadLanguageSelection;
+    });
+    
+    document.getElementById('back-btn').addEventListener('click', () => {
+        showSection('language-container');
+    });
 }
 
-// ---- STEP 3: Theme Selection (Dynamic) ----
-async function loadThemeSelection() {
-    quizContainer.innerHTML = `<h1>Loading themes...</h1>`;
-    // Attempt to fetch themes dynamically from your folder structure (data/{language}/{skill}/)
-    try {
-        const themeList = await fetchThemeFolders(currentState.language, currentState.skill);
-        if (!themeList || themeList.length === 0) {
-            quizContainer.innerHTML = `
-                <h1>No Themes Found</h1>
-                <button class="btn btn-secondary" id="back-btn">Back</button>
-            `;
-            document.getElementById('back-btn').onclick = loadSkillSelection;
-            return;
-        }
-        quizContainer.innerHTML = `
-            <h1>Select Theme</h1>
-            <div class="theme-options">
-                ${themeList.map(theme => `
-                    <button class="btn btn-primary theme-btn" data-theme="${theme}">${theme.replace(/_/g, ' ')}</button>
-                `).join('')}
-                <button class="btn btn-secondary" id="back-btn">Back</button>
-            </div>
-        `;
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                currentState.theme = e.target.dataset.theme;
-                loadQuiz();
-            });
-        });
-        document.getElementById('back-btn').onclick = loadSkillSelection;
-    } catch (e) {
-        quizContainer.innerHTML = `
-            <h1>Error loading themes.</h1>
-            <button class="btn btn-secondary" id="back-btn">Back</button>
-        `;
-        document.getElementById('back-btn').onclick = loadSkillSelection;
-    }
-}
-
-// Helper: Try to fetch list of theme folders using GitHub API or server-side support
-async function fetchThemeFolders(language, skill) {
-    // If hosted on a server, implement a backend endpoint to list folders under /data/{language}/{skill}/
-    // For GitHub Pages: Cannot list directories directly. You must maintain a manifest file (e.g. themes.json)
-    try {
-        // Try to fetch a manifest file first
-        const manifestUrl = `data/${language}/${skill}/themes.json`;
-        const resp = await fetch(manifestUrl);
-        if (resp.ok) {
-            const json = await resp.json();
-            return json.themes;
-        }
-    } catch (e) {
-        // fallback below if no manifest
-    }
-    // Fallback (hardcoded themes, update as needed)
-    const fallbackThemes = {
+// Load theme selection (Word Formation, Letter Recognition, etc.)
+function loadThemeSelection() {
+    // Themes would vary by language and skill
+    const themes = {
         'Reading': ['Word_Formation', 'Letter_Recognition'],
         'Speaking': ['Vocabulary', 'Pronunciation']
     };
-    return fallbackThemes[skill] || [];
+    
+    themeContainer.innerHTML = `
+        <h1>Select Theme</h1>
+        <div class="theme-options" id="theme-options-container">
+            ${themes[currentState.skill].map(theme => `
+                <button class="btn theme-btn" data-theme="${theme}">
+                    ${theme.replace('_', ' ')}
+                </button>
+            `).join('')}
+            <button class="btn back-btn" id="back-btn">Back</button>
+        </div>
+    `;
+    
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            currentState.theme = e.target.dataset.theme;
+            loadQuiz();
+        });
+    });
+    
+    document.getElementById('back-btn').addEventListener('click', () => {
+        showSection('skill-container');
+    });
 }
 
-// ---- STEP 4: Load Quiz (Questions) ----
+// Load the quiz
 async function loadQuiz() {
-    quizContainer.innerHTML = `<h1>Loading quiz...</h1>`;
+    showSection('quiz-container');
+    quizContainer.innerHTML = '<div class="loading-spinner"></div><p>Loading questions...</p>';
+    
     try {
-        const qUrl = `data/${currentState.language}/${currentState.skill}/${currentState.theme}/questions.json`;
-        const resp = await fetch(qUrl);
-        if (!resp.ok) throw new Error('Questions not found');
-        currentState.questions = await resp.json();
+        const response = await fetch(`data/${currentState.language}/${currentState.skill}/${currentState.theme}/questions.json`);
+        if (!response.ok) throw new Error('Failed to load questions');
+        
+        currentState.questions = await response.json();
         currentState.currentQuestionIndex = 0;
         currentState.score = 0;
         renderQuestion();
     } catch (error) {
+        console.error('Error loading quiz:', error);
         quizContainer.innerHTML = `
-            <h1>Error loading questions.</h1>
-            <button class="btn btn-secondary" id="back-btn">Back</button>
+            <p>Error loading questions. Please try again.</p>
+            <button class="btn back-btn" id="back-btn">Back</button>
         `;
-        document.getElementById('back-btn').onclick = loadThemeSelection;
+        document.getElementById('back-btn').addEventListener('click', () => {
+            showSection('theme-container');
+        });
     }
 }
 
-// ---- STEP 5: Render Question ----
+// Render the current question
 function renderQuestion() {
     const question = currentState.questions[currentState.currentQuestionIndex];
+    const progress = ((currentState.currentQuestionIndex) / currentState.questions.length) * 100;
+    
     quizContainer.innerHTML = `
-        <div class="question-container">
-            <div class="question-header">
-                <h2 id="question-text">${question.questionText}</h2>
-                ${question.audio ? `
-                    <button class="audio-btn" id="play-audio">
-                        <img src="assets/icons/volume.svg" alt="Play audio">
-                    </button>
-                ` : ''}
-            </div>
-            <div class="options-container" id="options-container">
-                ${question.options.map((option, idx) => `
-                    <button class="option-btn" data-idx="${idx}">${option.text}</button>
-                `).join('')}
-            </div>
-            <div class="feedback" id="feedback" style="display:none;"></div>
+        <div class="progress-container">
+            <div class="progress-bar" style="width: ${progress}%"></div>
         </div>
-        <div class="navigation">
-            <button class="btn btn-secondary" id="back-btn">Back</button>
-            <button class="btn btn-primary" id="next-btn" disabled>Next</button>
+        <div class="question-container">
+            <h2 id="question-text">${question.question}</h2>
+            <div class="options-container" id="options-container"></div>
+            <div class="explanation-container hidden" id="explanation-container">
+                <h3>Explanation</h3>
+                <p id="explanation-text"></p>
+                <button class="btn" id="next-btn">Next Question</button>
+            </div>
         </div>
     `;
-    // Option listeners
-    document.querySelectorAll('.option-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const idx = parseInt(e.target.dataset.idx, 10);
-            checkAnswer(question.options[idx].correct, question.options[idx].explanation, e.target);
-        });
+    
+    // Add options
+    const optionsContainer = document.getElementById('options-container');
+    question.choices.forEach((choice, index) => {
+        const optionBtn = document.createElement('button');
+        optionBtn.className = 'option-btn';
+        optionBtn.textContent = choice;
+        optionBtn.addEventListener('click', () => checkAnswer(choice, question.answer, question.explanation));
+        optionsContainer.appendChild(optionBtn);
     });
-    // Audio
-    if (question.audio) {
-        const audioBtn = document.getElementById('play-audio');
-        const audio = new Audio(question.audio);
-        audioBtn.onclick = () => {
-            audio.currentTime = 0;
-            audio.play();
-        };
-        audio.play();
-    }
-    // Navigation
-    document.getElementById('back-btn').onclick = loadThemeSelection;
-    document.getElementById('next-btn').onclick = nextQuestion;
+    
+    // Set up next button
+    document.getElementById('next-btn').addEventListener('click', nextQuestion);
 }
 
-// ---- STEP 6: Check Answer ----
-function checkAnswer(isCorrect, explanation, clickedBtn) {
-    const feedback = document.getElementById('feedback');
-    const nextBtn = document.getElementById('next-btn');
-    const optionBtns = document.querySelectorAll('.option-btn');
-    // Disable all
-    optionBtns.forEach(btn => btn.disabled = true);
-    // Mark correct/incorrect
-    optionBtns.forEach(btn => {
-        if (btn.textContent === currentState.questions[currentState.currentQuestionIndex].options.find(opt => opt.correct).text) {
+// Check the selected answer
+function checkAnswer(selectedAnswer, correctAnswer, explanation) {
+    const options = document.querySelectorAll('.option-btn');
+    const explanationContainer = document.getElementById('explanation-container');
+    const explanationText = document.getElementById('explanation-text');
+    
+    // Disable all options
+    options.forEach(btn => {
+        btn.disabled = true;
+        
+        // Highlight correct and incorrect answers
+        if (btn.textContent === correctAnswer) {
             btn.classList.add('correct');
-        } else if (btn === clickedBtn && !isCorrect) {
+        } else if (btn.textContent === selectedAnswer && selectedAnswer !== correctAnswer) {
             btn.classList.add('incorrect');
         }
     });
-    // Feedback
-    feedback.textContent = explanation;
-    feedback.classList.remove('correct', 'incorrect');
-    feedback.classList.add(isCorrect ? 'correct' : 'incorrect');
-    feedback.style.display = 'block';
-    // Score
-    if (isCorrect) currentState.score++;
-    // Enable next
-    nextBtn.disabled = false;
+    
+    // Update score if correct
+    if (selectedAnswer === correctAnswer) {
+        currentState.score++;
+    }
+    
+    // Show explanation
+    explanationText.textContent = explanation;
+    explanationContainer.classList.remove('hidden');
 }
 
-// ---- STEP 7: Next Question or Results ----
+// Move to next question or show results
 function nextQuestion() {
     currentState.currentQuestionIndex++;
+    
     if (currentState.currentQuestionIndex < currentState.questions.length) {
         renderQuestion();
     } else {
@@ -234,22 +208,55 @@ function nextQuestion() {
     }
 }
 
-// ---- STEP 8: Show Results ----
+// Show quiz results
 function showResults() {
-    quizContainer.innerHTML = `
-        <div class="results-container">
-            <h2>Quiz Completed!</h2>
-            <p>Your score: ${currentState.score}/${currentState.questions.length}</p>
-            <button class="btn btn-primary" id="restart-btn">Restart Quiz</button>
-            <button class="btn btn-secondary" id="new-theme-btn">Choose New Theme</button>
-            <button class="btn btn-secondary" id="main-menu-btn">Main Menu</button>
+    showSection('result-container');
+    const percentage = (currentState.score / currentState.questions.length) * 100;
+    let performanceText, performanceClass;
+    
+    if (percentage >= 80) {
+        performanceText = "Excellent! You've mastered this topic!";
+        performanceClass = "great";
+    } else if (percentage >= 60) {
+        performanceText = "Good job! You're making great progress!";
+        performanceClass = "good";
+    } else if (percentage >= 40) {
+        performanceText = "Not bad! Keep practicing!";
+        performanceClass = "average";
+    } else {
+        performanceText = "Keep trying! You'll improve with practice!";
+        performanceClass = "poor";
+    }
+    
+    resultContainer.innerHTML = `
+        <h2>Quiz Completed!</h2>
+        <div class="score-display">
+            Your score: <span class="score">${currentState.score}</span>/<span class="total">${currentState.questions.length}</span>
+        </div>
+        <div class="performance-rating ${performanceClass}">
+            ${performanceText}
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-restart" id="restart-btn">Restart Quiz</button>
+            <button class="btn btn-new-theme" id="new-theme-btn">Choose New Theme</button>
+            <button class="btn btn-new-subject" id="main-menu-btn">Main Menu</button>
         </div>
     `;
-    document.getElementById('restart-btn').onclick = () => {
+    
+    document.getElementById('restart-btn').addEventListener('click', () => {
         currentState.currentQuestionIndex = 0;
         currentState.score = 0;
-        renderQuestion();
-    };
-    document.getElementById('new-theme-btn').onclick = loadThemeSelection;
-    document.getElementById('main-menu-btn').onclick = loadLanguageSelection;
+        loadQuiz();
+    });
+    
+    document.getElementById('new-theme-btn').addEventListener('click', () => {
+        showSection('theme-container');
+    });
+    
+    document.getElementById('main-menu-btn').addEventListener('click', () => {
+        showSection('language-container');
+    });
 }
+
+// Initialize the app when DOM is loaded
+document.addEventListener('DOMContentLoaded', init);
