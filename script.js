@@ -154,7 +154,7 @@ function renderQuestion() {
             
             ${question.audio ? `
             <div class="audio-controls">
-                <button class="audio-replay-btn" id="replay-audio">
+                <button class="btn audio-replay-btn" id="replay-audio">
                     <img src="assets/icons/replay.svg" alt="Replay audio">
                     Play Again
                 </button>
@@ -166,11 +166,13 @@ function renderQuestion() {
             <div class="explanation-container hidden" id="explanation-container">
                 <h3>Explanation</h3>
                 <p id="explanation-text">${question.explanation || ''}</p>
-                <button class="btn" id="next-btn">Next Question</button>
+                <div class="quiz-navigation">
+                    <button class="btn btn-accent" id="next-btn">Next Question</button>
+                    <button class="btn btn-secondary" id="finish-btn">Finish Quiz</button>
+                </div>
             </div>
         </div>
     `;
-
     // Add answer options
     const optionsContainer = document.getElementById('options-container');
     question.choices.forEach((choice) => {
@@ -188,6 +190,23 @@ function renderQuestion() {
 
     // Set up next button
     document.getElementById('next-btn').addEventListener('click', nextQuestion);
+    document.getElementById('finish-btn').addEventListener('click', finishQuiz);
+}
+
+function finishQuiz() {
+    // Calculate percentage based on attempted questions
+    const totalAttempted = currentState.currentQuestionIndex;
+    const percentage = totalAttempted > 0 
+        ? Math.round((currentState.score / totalAttempted) * 100) 
+        : 0;
+    
+    // Store results
+    currentState.quizCompleted = true;
+    currentState.totalAttempted = totalAttempted;
+    currentState.percentage = percentage;
+    
+    // Show results
+    showResults();
 }
 
 // Helper function for audio functionality
@@ -263,33 +282,114 @@ function nextQuestion() {
     }
 }
 
-// Show quiz results
 function showResults() {
-    showSection('result-container');
-    const percentage = (currentState.score / currentState.questions.length) * 100;
-    let performanceText, performanceClass;
+    // Calculate results based on whether quiz was completed or finished early
+    const totalQuestions = currentState.questions.length;
+    const totalAttempted = currentState.quizCompleted ? currentState.totalAttempted : totalQuestions;
+    const percentage = currentState.quizCompleted ? currentState.percentage : Math.round((currentState.score / totalQuestions) * 100);
+    const performance = getPerformanceRating(percentage);
     
-    if (percentage >= 80) {
-        performanceText = "Excellent! You've mastered this topic!";
-        performanceClass = "great";
-    } else if (percentage >= 60) {
-        performanceText = "Good job! You're making great progress!";
-        performanceClass = "good";
-    } else if (percentage >= 40) {
-        performanceText = "Not bad! Keep practicing!";
-        performanceClass = "average";
+    // Build results HTML
+    resultContainer.innerHTML = `
+        <div class="result-card">
+            <h2>${currentState.quizCompleted ? 'Quiz Completed Early' : 'Quiz Completed!'}</h2>
+            
+            <div class="score-display">
+                <div class="score-circle" style="--percentage: ${percentage}%">
+                    ${percentage}%
+                </div>
+                <p class="score-details">
+                    ${currentState.score} correct out of ${totalAttempted} attempted<br>
+                    (${totalQuestions} total questions)
+                </p>
+            </div>
+            
+            <div class="performance-feedback ${performance.class}">
+                <h3>${performance.title}</h3>
+                <p>${performance.message}</p>
+                <div class="progress-meter">
+                    <div class="progress-fill" style="width: ${percentage}%"></div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-restart" id="restart-btn">
+                    <img src="assets/icons/restart.svg" alt=""> Try Again
+                </button>
+                <button class="btn btn-new-theme" id="new-theme-btn">
+                    <img src="assets/icons/theme.svg" alt=""> New Theme
+                </button>
+                <button class="btn btn-new-subject" id="main-menu-btn">
+                    <img src="assets/icons/language.svg" alt=""> Change Language
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Add event listeners
+    document.getElementById('restart-btn').addEventListener('click', () => {
+        currentState.currentQuestionIndex = 0;
+        currentState.score = 0;
+        currentState.quizCompleted = false;
+        renderQuestion();
+    });
+
+    document.getElementById('new-theme-btn').addEventListener('click', () => {
+        showSection('theme-container');
+    });
+
+    document.getElementById('main-menu-btn').addEventListener('click', () => {
+        showSection('language-container');
+    });
+
+    // Animate the progress fill
+    setTimeout(() => {
+        document.querySelector('.progress-fill').style.width = `${percentage}%`;
+    }, 100);
+}
+
+// Helper function to get performance rating
+function getPerformanceRating(percentage) {
+    if (percentage >= 90) {
+        return {
+            class: 'excellent',
+            title: 'Excellent!',
+            message: 'You have mastered this material!'
+        };
+    } else if (percentage >= 70) {
+        return {
+            class: 'good',
+            title: 'Good Job!',
+            message: 'You have a solid understanding.'
+        };
+    } else if (percentage >= 50) {
+        return {
+            class: 'fair',
+            title: 'Keep Practicing',
+            message: 'You\'re getting there! Review the explanations.'
+        };
     } else {
-        performanceText = "Keep trying! You'll improve with practice!";
-        performanceClass = "poor";
+        return {
+            class: 'poor',
+            title: 'Needs Improvement',
+            message: 'Try reviewing the material before attempting again.'
+        };
     }
+}
+
+function showResults() {
+    const totalQuestions = currentState.questions.length;
+    const totalAttempted = currentState.quizCompleted ? currentState.totalAttempted : totalQuestions;
+    const percentage = currentState.quizCompleted ? currentState.percentage : Math.round((currentState.score / totalQuestions) * 100);
     
     resultContainer.innerHTML = `
-        <h2>Quiz Completed!</h2>
+        <h2>Quiz ${currentState.quizCompleted ? 'Completed Early' : 'Completed'}</h2>
         <div class="score-display">
-            Your score: <span class="score">${currentState.score}</span>/<span class="total">${currentState.questions.length}</span>
+            <p>You answered ${currentState.score} out of ${totalAttempted} questions correctly</p>
+            <p>Score: ${percentage}%</p>
         </div>
-        <div class="performance-rating ${performanceClass}">
-            ${performanceText}
+        <div class="performance-rating ${getPerformanceClass(percentage)}">
+            ${getPerformanceText(percentage)}
         </div>
         <div class="action-buttons">
             <button class="btn btn-restart" id="restart-btn">Restart Quiz</button>
@@ -298,19 +398,22 @@ function showResults() {
         </div>
     `;
     
-    document.getElementById('restart-btn').addEventListener('click', () => {
-        currentState.currentQuestionIndex = 0;
-        currentState.score = 0;
-        loadQuiz();
-    });
-    
-    document.getElementById('new-theme-btn').addEventListener('click', () => {
-        showSection('theme-container');
-    });
-    
-    document.getElementById('main-menu-btn').addEventListener('click', () => {
-        showSection('language-container');
-    });
+    // ... rest of your existing showResults code ...
+}
+
+// Helper functions
+function getPerformanceClass(percentage) {
+    if (percentage >= 80) return 'great';
+    if (percentage >= 60) return 'good';
+    if (percentage >= 40) return 'average';
+    return 'poor';
+}
+
+function getPerformanceText(percentage) {
+    if (percentage >= 80) return "Excellent work! You've mastered this material!";
+    if (percentage >= 60) return "Good job! You're making solid progress!";
+    if (percentage >= 40) return "Keep practicing! You're getting there!";
+    return "Review the material and try again!";
 }
 
 // Initialize the app when DOM is loaded
