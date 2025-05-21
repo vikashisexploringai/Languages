@@ -172,3 +172,51 @@ a.language-card {
     margin: 0.5rem;
     text-decoration: none;
 }
+
+/* Add these styles to your existing CSS */
+
+.container {
+    position: relative;
+    padding-top: 20px;
+}
+
+.header-with-back {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.back-button {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 24px;
+    color: #3498db;
+    text-decoration: none;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.back-button:hover {
+    background-color: #f0f0f0;
+    transform: translateX(-3px);
+}
+
+.theme-options {
+    display: grid;
+    gap: 15px;
+}
+
+/* For quiz page specific styles */
+#quiz-container {
+    margin-top: 20px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
