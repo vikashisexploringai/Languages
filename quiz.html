@@ -14,22 +14,9 @@
                 <div id="progress-bar" class="progress-bar"></div>
             </div>
         </div>
-        
         <div id="quiz-container">
-            <div id="question-container" class="question-container">
-                <h2 id="question-text">Question text goes here</h2>
-                <div id="options-container" class="options-container">
-                    <!-- Options will be populated by JavaScript -->
-                </div>
-            </div>
-            
-            <div id="explanation-container" class="explanation-container hidden">
-                <h3>Explanation</h3>
-                <p id="explanation-text">Explanation will appear here</p>
-                <button id="next-button">Next Question</button>
-            </div>
+            <!-- Dynamic quiz content will be injected here by script.js -->
         </div>
-        
         <div id="result-container" class="result-container hidden">
             <h2>Quiz Completed!</h2>
             <div class="score-display">
@@ -39,116 +26,12 @@
                 <p id="performance-text">Performance rating</p>
             </div>
             <div class="action-buttons">
-                <button class="btn-restart" onclick="restartQuiz()">Restart Quiz</button>
-                <button class="btn-new-theme" onclick="window.location.href='theme.html'">Choose New Theme</button>
-                <button class="btn-new-subject" onclick="window.location.href='index.html'">Choose New Language</button>
+                <button class="btn-restart" id="restart-btn">Restart Quiz</button>
+                <button class="btn-new-theme" id="new-theme-btn">Choose New Theme</button>
+                <button class="btn-new-subject" id="main-menu-btn">Choose New Language</button>
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
-    <script>
-        // Quiz state
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let questions = [];
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const language = localStorage.getItem('selectedLanguage');
-            const skill = localStorage.getItem('selectedSkill');
-            const theme = localStorage.getItem('selectedTheme');
-            
-            if (!language || !skill || !theme) {
-                window.location.href = 'index.html';
-                return;
-            }
-            
-            document.getElementById('quiz-title').textContent = `${language} ${skill} - ${theme.replace(/_/g, ' ')}`;
-            
-            loadQuestions(language, skill, theme);
-        });
-        
-        function loadQuestions(language, skill, theme) {
-            // In a real app, you would fetch this from your server
-            // For demo purposes, we'll use sample questions
-            const sampleQuestions = [
-                {
-                    "question": "What is the Punjabi word for 'water'?",
-                    "choices": ["ਰੋਟੀ", "ਪਾਣੀ", "ਦੁੱਧ", "ਚਾਹ"],
-                    "answer": "ਪਾਣੀ",
-                    "explanation": "'ਪਾਣੀ' is the Punjabi word for water."
-                },
-                {
-                    "question": "What is the French word for 'hello'?",
-                    "choices": ["Au revoir", "Merci", "Bonjour", "S'il vous plaît"],
-                    "answer": "Bonjour",
-                    "explanation": "'Bonjour' is the French word for hello."
-                }
-            ];
-            
-            // Simulate loading delay
-            setTimeout(() => {
-                questions = sampleQuestions;
-                showQuestion();
-            }, 800);
-        }
-        
-        function showQuestion() {
-            if (currentQuestionIndex >= questions.length) {
-                showResults();
-                return;
-            }
-            
-            const question = questions[currentQuestionIndex];
-            const questionText = document.getElementById('question-text');
-            const optionsContainer = document.getElementById('options-container');
-            const explanationContainer = document.getElementById('explanation-container');
-            
-            // Update progress
-            const progress = ((currentQuestionIndex) / questions.length) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-            
-            // Set question text
-            questionText.textContent = question.question;
-            
-            // Clear previous options
-            optionsContainer.innerHTML = '';
-            
-            // Add new options
-            question.choices.forEach((choice, index) => {
-                const button = document.createElement('button');
-                button.textContent = choice;
-                button.onclick = () => selectAnswer(choice, question.answer);
-                optionsContainer.appendChild(button);
-            });
-            
-            // Hide explanation and show question
-            explanationContainer.classList.add('hidden');
-            document.getElementById('quiz-container').style.display = 'block';
-        }
-        
-        function selectAnswer(selectedAnswer, correctAnswer) {
-            const options = document.querySelectorAll('#options-container button');
-            const explanationContainer = document.getElementById('explanation-container');
-            const explanationText = document.getElementById('explanation-text');
-            const question = questions[currentQuestionIndex];
-            
-            // Disable all buttons
-            options.forEach(button => {
-                button.disabled = true;
-                
-                // Highlight correct and incorrect answers
-                if (button.textContent === correctAnswer) {
-                    button.classList.add('correct');
-                } else if (button.textContent === selectedAnswer && selectedAnswer !== correctAnswer) {
-                    button.classList.add('incorrect');
-                }
-            });
-            
-            // Update score if correct
-            if (selectedAnswer === correctAnswer) {
-                score++;
-            }
-            
-            // Show explanation
-            explanationText.textContent = question.ex
+</body>
+</html>
