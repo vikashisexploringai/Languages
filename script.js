@@ -1,420 +1,174 @@
-// App state
-let currentState = {
-    language: null,
-    skill: null,
-    theme: null,
-    questions: [],
-    currentQuestionIndex: 0,
-    score: 0
+const subjects = {
+    'bengali': {
+        displayName: 'Bengali',
+        themes: {
+            'letterRecognition': { displayName: 'Letter Recognition' }
+        }
+    },
+    'gujarati': {
+        displayName: 'Gujarati',
+        themes: {
+            'letterRecognition': { displayName: 'Letter Recognition' }
+        }
+    }
 };
 
-// DOM elements
-const languageContainer = document.getElementById('language-container');
-const skillContainer = document.getElementById('skill-container');
-const themeContainer = document.getElementById('theme-container');
-const quizContainer = document.getElementById('quiz-container');
-const resultContainer = document.getElementById('result-container');
+// Store selected language and theme
+let currentLanguage = '';
+let currentTheme = '';
 
-// Available languages
-const languages = ['Gujarati', 'Punjabi'];
+// Initialize based on current page
+document.addEventListener('DOMContentLoaded', () => {
+    // Language selection page
+    if (document.querySelector('.language-choice')) {
+        initLanguageSelection();
+    }
+    // Theme selection page
+    else if (document.getElementById('theme-container')) {
+        initThemeSelection();
+    }
+    // Quiz page
+    else if (document.querySelector('.quiz-container')) {
+        initQuizPage();
+    }
+});
 
-// Initialize the app
-function init() {
-    // Set initial UI state
-    showSection('language-container');
-    loadLanguageSelection();
-}
-
-// Show specific section and hide others
-function showSection(sectionId) {
-    document.querySelectorAll('.main-section').forEach(section => {
-        section.style.display = 'none';
-    });
-    document.getElementById(sectionId).style.display = 'block';
-}
-
-// Load language selection screen
-function loadLanguageSelection() {
-    languageContainer.innerHTML = `
-        <h1>Choose Your Language</h1>
-        <div class="language-buttons-container" id="language-buttons"></div>
-    `;
-    
-    const buttonsContainer = document.getElementById('language-buttons');
-    
-    languages.forEach(language => {
-        const langBtn = document.createElement('button');
-        langBtn.className = 'language-btn';
-        langBtn.textContent = language;
-        langBtn.addEventListener('click', () => {
-            currentState.language = language;
-            showSection('skill-container');
-            loadSkillSelection();
-        });
-        buttonsContainer.appendChild(langBtn);
-    });
-}
-
-// Load skill selection (Reading/Speaking)
-function loadSkillSelection() {
-    skillContainer.innerHTML = `
-        <h1>Select Skill</h1>
-        <div class="skill-options">
-            <button class="btn" id="reading-btn">Reading</button>
-            <button class="btn" id="speaking-btn">Speaking</button>
-            <button class="btn back-btn" id="back-btn">Back</button>
-        </div>
-    `;
-    
-    document.getElementById('reading-btn').addEventListener('click', () => {
-        currentState.skill = 'Reading';
-        showSection('theme-container');
-        loadThemeSelection();
-    });
-    
-    document.getElementById('speaking-btn').addEventListener('click', () => {
-        currentState.skill = 'Speaking';
-        showSection('theme-container');
-        loadThemeSelection();
-    });
-    
-    document.getElementById('back-btn').addEventListener('click', () => {
-        showSection('language-container');
-    });
-}
-
-// Load theme selection (Word Formation, Letter Recognition, etc.)
-function loadThemeSelection() {
-    // Themes would vary by language and skill
-    const themes = {
-        'Reading': ['Letter_Recognition', 'Word_Formation'],
-        'Speaking': ['Vocabulary', 'Pronunciation']
-    };
-    
-    themeContainer.innerHTML = `
-        <h1>Select Theme</h1>
-        <div class="theme-options" id="theme-options-container">
-            ${themes[currentState.skill].map(theme => `
-                <button class="btn theme-btn" data-theme="${theme}">
-                    ${theme.replace('_', ' ')}
-                </button>
-            `).join('')}
-            <button class="btn back-btn" id="back-btn">Back</button>
-        </div>
-    `;
-    
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            currentState.theme = e.target.dataset.theme;
-            loadQuiz();
+function initLanguageSelection() {
+    const languageChoices = document.querySelectorAll('.language-choice');
+    languageChoices.forEach(choice => {
+        choice.addEventListener('click', () => {
+            currentLanguage = choice.dataset.language;
+            window.location.href = 'theme.html';
         });
     });
-    
-    document.getElementById('back-btn').addEventListener('click', () => {
-        showSection('skill-container');
-    });
 }
 
-// Load the quiz
-async function loadQuiz() {
-    showSection('quiz-container');
-    quizContainer.innerHTML = '<div class="loading-spinner"></div><p>Loading questions...</p>';
+function initThemeSelection() {
+    const themeContainer = document.getElementById('theme-container');
+    const language = currentLanguage;
     
-    try {
-        const response = await fetch(`data/${currentState.language}/${currentState.skill}/${currentState.theme}/questions.json`);
-        if (!response.ok) throw new Error('Failed to load questions');
+    if (language && subjects[language]) {
+        const themes = subjects[language].themes;
         
-        currentState.questions = await response.json();
-        currentState.currentQuestionIndex = 0;
-        currentState.score = 0;
-        renderQuestion();
-    } catch (error) {
-        console.error('Error loading quiz:', error);
-        quizContainer.innerHTML = `
-            <p>Error loading questions. Please try again.</p>
-            <button class="btn back-btn" id="back-btn">Back</button>
-        `;
-        document.getElementById('back-btn').addEventListener('click', () => {
-            showSection('theme-container');
-        });
-    }
-}
-
-function renderQuestion() {
-    const question = currentState.questions[currentState.currentQuestionIndex];
-    const progress = ((currentState.currentQuestionIndex) / currentState.questions.length) * 100;
-    
-    // Build question HTML with audio replay button
-    quizContainer.innerHTML = `
-        <div class="progress-container">
-            <div class="progress-bar" style="width: ${progress}%"></div>
-        </div>
-        <div class="question-container">
-            <h2 id="question-text">${question.question}</h2>
+        for (const [themeKey, themeData] of Object.entries(themes)) {
+            const themeElement = document.createElement('div');
+            themeElement.className = 'theme-choice';
+            themeElement.dataset.theme = themeKey;
             
-            ${question.audio ? `
-            <div class="audio-controls">
-                <button class="btn audio-replay-btn" id="replay-audio">
-                    <img src="assets/icons/replay.svg" alt="Replay audio">
-                    Play Again
-                </button>
-                <span class="audio-status" id="audio-status"></span>
-            </div>
-            ` : ''}
+            themeElement.innerHTML = `
+                <div class="theme-letter">${themeKey.charAt(0).toUpperCase()}</div>
+                <div class="theme-name">${themeData.displayName}</div>
+            `;
             
-            <div class="options-container" id="options-container"></div>
-            <div class="explanation-container hidden" id="explanation-container">
-                <h3>Explanation</h3>
-                <p id="explanation-text">${question.explanation || ''}</p>
-                <div class="quiz-navigation">
-                    <button class="btn btn-accent" id="next-btn">Next Question</button>
-                    <button class="btn btn-accent" id="finish-btn">Finish Quiz</button>
-                </div>
-            </div>
-        </div>
-    `;
-    // Add answer options
-    const optionsContainer = document.getElementById('options-container');
-    question.choices.forEach((choice) => {
-        const optionBtn = document.createElement('button');
-        optionBtn.className = 'option-btn';
-        optionBtn.textContent = choice;
-        optionBtn.addEventListener('click', () => checkAnswer(choice, question.answer, question.explanation));
-        optionsContainer.appendChild(optionBtn);
-    });
-
-    // Set up audio functionality if audio exists for this question
-    if (question.audio) {
-        setupQuestionAudio(question.audio);
-    }
-
-    // Set up next button
-    document.getElementById('next-btn').addEventListener('click', nextQuestion);
-    document.getElementById('finish-btn').addEventListener('click', finishQuiz);
-}
-
-function finishQuiz() {
-    // Calculate percentage based on attempted questions
-    const totalAttempted = currentState.currentQuestionIndex;
-    const percentage = totalAttempted > 0 
-        ? Math.round((currentState.score / totalAttempted) * 100) 
-        : 0;
-    
-    // Store results
-    currentState.quizCompleted = true;
-    currentState.totalAttempted = totalAttempted;
-    currentState.percentage = percentage;
-    
-    // Show results
-    showResults();
-}
-
-// Helper function for audio functionality
-function setupQuestionAudio(audioFile) {
-    const replayBtn = document.getElementById('replay-audio');
-    const audioStatus = document.getElementById('audio-status');
-    const audioPath = `data/${currentState.language}/${currentState.skill}/${currentState.theme}/audio/${audioFile}`;
-    const audio = new Audio(audioPath);
-    
-    // Auto-play when question loads (with error handling)
-    audio.play()
-        .then(() => {
-            audioStatus.textContent = "Playing...";
-            audio.onended = () => audioStatus.textContent = "";
-        })
-        .catch(e => {
-            console.error("Auto-play prevented:", e);
-            audioStatus.textContent = "Click Play Again to listen";
-        });
-    
-    // Set up replay button
-    replayBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        audio.currentTime = 0;
-        audio.play()
-            .then(() => {
-                audioStatus.textContent = "Playing...";
-                audio.onended = () => audioStatus.textContent = "";
-            })
-            .catch(e => {
-                console.error("Playback failed:", e);
-                audioStatus.textContent = "Playback failed";
+            themeElement.addEventListener('click', () => {
+                currentTheme = themeKey;
+                window.location.href = `quiz.html?language=${language}&theme=${themeKey}`;
             });
-    });
-}
-
-// Check the selected answer
-function checkAnswer(selectedAnswer, correctAnswer, explanation) {
-    const options = document.querySelectorAll('.option-btn');
-    const explanationContainer = document.getElementById('explanation-container');
-    const explanationText = document.getElementById('explanation-text');
-    
-    // Disable all options
-    options.forEach(btn => {
-        btn.disabled = true;
-        
-        // Highlight correct and incorrect answers
-        if (btn.textContent === correctAnswer) {
-            btn.classList.add('correct');
-        } else if (btn.textContent === selectedAnswer && selectedAnswer !== correctAnswer) {
-            btn.classList.add('incorrect');
+            
+            themeContainer.appendChild(themeElement);
         }
-    });
-    
-    // Update score if correct
-    if (selectedAnswer === correctAnswer) {
-        currentState.score++;
     }
     
-    // Show explanation
-    explanationText.textContent = explanation;
-    explanationContainer.classList.remove('hidden');
+    // Back button
+    document.getElementById('back-button').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
 }
 
-// Move to next question or show results
-function nextQuestion() {
-    currentState.currentQuestionIndex++;
+function initQuizPage() {
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const language = urlParams.get('language');
+    const theme = urlParams.get('theme');
     
-    if (currentState.currentQuestionIndex < currentState.questions.length) {
-        renderQuestion();
-    } else {
-        showResults();
+    let questions = [];
+    let currentQuestionIndex = 0;
+    let audioElement = new Audio();
+    
+    // DOM elements
+    const questionElement = document.querySelector('.question');
+    const choiceElements = document.querySelectorAll('.choice');
+    const audioButton = document.querySelector('.audio-button');
+    const feedbackElement = document.querySelector('.feedback');
+    const nextButton = document.getElementById('next-button');
+    
+    // Load questions
+    fetch(`data/${language}/${theme}/questions.json`)
+        .then(response => response.json())
+        .then(data => {
+            questions = data;
+            loadQuestion();
+        })
+        .catch(error => {
+            console.error('Error loading questions:', error);
+            feedbackElement.textContent = 'Error loading questions. Please try again.';
+        });
+    
+    function loadQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            questionElement.textContent = 'Quiz Completed!';
+            choiceElements.forEach(el => el.style.display = 'none');
+            nextButton.style.display = 'none';
+            feedbackElement.textContent = `You've completed all ${questions.length} questions!`;
+            return;
+        }
+        
+        const question = questions[currentQuestionIndex];
+        questionElement.textContent = question.question;
+        
+        // Load choices
+        question.choices.forEach((choice, index) => {
+            choiceElements[index].textContent = choice;
+        });
+        
+        // Load audio
+        audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
+        playAudio();
+        
+        // Reset feedback and choices
+        feedbackElement.textContent = '';
+        choiceElements.forEach(el => {
+            el.style.backgroundColor = '#2196F3';
+            el.style.pointerEvents = 'auto';
+        });
     }
-}
-
-function showResults() {
-    // Calculate results based on whether quiz was completed or finished early
-    const totalQuestions = currentState.questions.length;
-    const totalAttempted = currentState.quizCompleted ? currentState.totalAttempted : totalQuestions;
-    const percentage = currentState.quizCompleted ? currentState.percentage : Math.round((currentState.score / totalQuestions) * 100);
-    const performance = getPerformanceRating(percentage);
     
-    // Build results HTML
-    resultContainer.innerHTML = `
-        <div class="result-card">
-            <h2>${currentState.quizCompleted ? 'Quiz Completed Early' : 'Quiz Completed!'}</h2>
-            
-            <div class="score-display">
-                <div class="score-circle" style="--percentage: ${percentage}%">
-                    ${percentage}%
-                </div>
-                <p class="score-details">
-                    ${currentState.score} correct out of ${totalAttempted} attempted<br>
-                    (${totalQuestions} total questions)
-                </p>
-            </div>
-            
-            <div class="performance-feedback ${performance.class}">
-                <h3>${performance.title}</h3>
-                <p>${performance.message}</p>
-                <div class="progress-meter">
-                    <div class="progress-fill" style="width: ${percentage}%"></div>
-                </div>
-            </div>
-            
-            <div class="action-buttons">
-                <button class="btn btn-restart" id="restart-btn">
-                    <img src="assets/icons/restart.svg" alt=""> Try Again
-                </button>
-                <button class="btn btn-new-theme" id="new-theme-btn">
-                    <img src="assets/icons/theme.svg" alt=""> New Theme
-                </button>
-                <button class="btn btn-new-subject" id="main-menu-btn">
-                    <img src="assets/icons/language.svg" alt=""> Change Language
-                </button>
-            </div>
-        </div>
-    `;
-
-    // Add event listeners
-    document.getElementById('restart-btn').addEventListener('click', () => {
-        currentState.currentQuestionIndex = 0;
-        currentState.score = 0;
-        currentState.quizCompleted = false;
-        renderQuestion();
-    });
-
-    document.getElementById('new-theme-btn').addEventListener('click', () => {
-        showSection('theme-container');
-    });
-
-    document.getElementById('main-menu-btn').addEventListener('click', () => {
-        showSection('language-container');
-    });
-
-    // Animate the progress fill
-    setTimeout(() => {
-        document.querySelector('.progress-fill').style.width = `${percentage}%`;
-    }, 100);
-}
-
-// Helper function to get performance rating
-function getPerformanceRating(percentage) {
-    if (percentage >= 90) {
-        return {
-            class: 'excellent',
-            title: 'Excellent!',
-            message: 'You have mastered this material!'
-        };
-    } else if (percentage >= 70) {
-        return {
-            class: 'good',
-            title: 'Good Job!',
-            message: 'You have a solid understanding.'
-        };
-    } else if (percentage >= 50) {
-        return {
-            class: 'fair',
-            title: 'Keep Practicing',
-            message: 'You\'re getting there! Review the explanations.'
-        };
-    } else {
-        return {
-            class: 'poor',
-            title: 'Needs Improvement',
-            message: 'Try reviewing the material before attempting again.'
-        };
+    function playAudio() {
+        audioElement.play().catch(e => console.log('Audio play failed:', e));
     }
-}
-
-function showResults() {
-    const totalQuestions = currentState.questions.length;
-    const totalAttempted = currentState.quizCompleted ? currentState.totalAttempted : totalQuestions;
-    const percentage = currentState.quizCompleted ? currentState.percentage : Math.round((currentState.score / totalQuestions) * 100);
     
-    resultContainer.innerHTML = `
-        <h2>Quiz ${currentState.quizCompleted ? 'Completed Early' : 'Completed'}</h2>
-        <div class="score-display">
-            <p>You answered ${currentState.score} out of ${totalAttempted} questions correctly</p>
-            <p>Score: ${percentage}%</p>
-        </div>
-        <div class="performance-rating ${getPerformanceClass(percentage)}">
-            ${getPerformanceText(percentage)}
-        </div>
-        <div class="action-buttons">
-            <button class="btn btn-restart" id="restart-btn">Restart Quiz</button>
-            <button class="btn btn-new-theme" id="new-theme-btn">Choose New Theme</button>
-            <button class="btn btn-new-subject" id="main-menu-btn">Main Menu</button>
-        </div>
-    `;
+    // Event listeners
+    audioButton.addEventListener('click', playAudio);
     
-    // ... rest of your existing showResults code ...
+    choiceElements.forEach(el => {
+        el.addEventListener('click', () => {
+            const selectedIndex = parseInt(el.dataset.index);
+            const correctIndex = questions[currentQuestionIndex].choices.indexOf(
+                questions[currentQuestionIndex].answer
+            );
+            
+            if (selectedIndex === correctIndex) {
+                el.style.backgroundColor = '#4CAF50';
+                feedbackElement.textContent = 'Correct! ' + questions[currentQuestionIndex].explanation;
+            } else {
+                el.style.backgroundColor = '#f44336';
+                choiceElements[correctIndex].style.backgroundColor = '#4CAF50';
+                feedbackElement.textContent = 'Incorrect. ' + questions[currentQuestionIndex].explanation;
+            }
+            
+            // Disable further selections
+            choiceElements.forEach(choice => {
+                choice.style.pointerEvents = 'none';
+            });
+        });
+    });
+    
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++;
+        loadQuestion();
+    });
+    
+    document.getElementById('theme-button').addEventListener('click', () => {
+        window.location.href = 'theme.html';
+    });
 }
-
-// Helper functions
-function getPerformanceClass(percentage) {
-    if (percentage >= 80) return 'great';
-    if (percentage >= 60) return 'good';
-    if (percentage >= 40) return 'average';
-    return 'poor';
-}
-
-function getPerformanceText(percentage) {
-    if (percentage >= 80) return "Excellent work! You've mastered this material!";
-    if (percentage >= 60) return "Good job! You're making solid progress!";
-    if (percentage >= 40) return "Keep practicing! You're getting there!";
-    return "Review the material and try again!";
-}
-
-// Initialize the app when DOM is loaded
-document.addEventListener('DOMContentLoaded', init);
