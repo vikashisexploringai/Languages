@@ -186,44 +186,99 @@ function initQuizPage() {
     }
     
     function setupEventListeners() {
-        // Question button plays audio
-        questionButton.addEventListener('click', playAudio);
-        
-        // Choice buttons check answers
-        choiceElements.forEach(el => {
-            el.addEventListener('click', function() {
-                const selectedIndex = parseInt(this.dataset.index);
-                const correctIndex = questions[currentQuestionIndex].choices.indexOf(
-                    questions[currentQuestionIndex].answer
-                );
-                
-                // Visual feedback
-                if (selectedIndex === correctIndex) {
-                    this.style.backgroundColor = '#4CAF50';
-                    feedbackElement.textContent = 'Correct! ' + questions[currentQuestionIndex].explanation;
-                    score++;
-                    updateScore();
-                } else {
-                    this.style.backgroundColor = '#f44336';
-                    choiceElements[correctIndex].style.backgroundColor = '#4CAF50';
-                    feedbackElement.textContent = 'Incorrect. ' + questions[currentQuestionIndex].explanation;
-                }
-                
-                // Disable further selections
-                choiceElements.forEach(choice => {
-                    choice.style.pointerEvents = 'none';
-                });
-                
-                nextButton.style.display = 'block';
+    // Configure the next button appearance
+    nextButton.innerHTML = '➔'; // Arrow symbol
+    nextButton.style.cssText = `
+        background-color: #2196F3; /* Blue instead of green */
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: none;
+        margin: 20px auto;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        position: relative;
+        overflow: hidden;
+    `;
+
+    // Add hover effect
+    nextButton.addEventListener('mouseenter', () => {
+        nextButton.style.transform = 'scale(1.1)';
+        nextButton.style.backgroundColor = '#1976D2';
+        nextButton.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+    });
+
+    nextButton.addEventListener('mouseleave', () => {
+        nextButton.style.transform = 'scale(1)';
+        nextButton.style.backgroundColor = '#2196F3';
+        nextButton.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+    });
+
+    // Add click effect
+    nextButton.addEventListener('mousedown', () => {
+        nextButton.style.transform = 'scale(0.95)';
+    });
+
+    nextButton.addEventListener('mouseup', () => {
+        nextButton.style.transform = 'scale(1.1)';
+    });
+
+    // Next question functionality
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++;
+        loadQuestion();
+    });
+
+    // Question button audio playback
+    questionButton.addEventListener('click', playAudio);
+
+    // Choice selection handlers
+    choiceElements.forEach((choice, index) => {
+        choice.addEventListener('click', function() {
+            // Disable all choices first
+            choiceElements.forEach(c => {
+                c.style.pointerEvents = 'none';
             });
+
+            const correctIndex = questions[currentQuestionIndex].choices.indexOf(
+                questions[currentQuestionIndex].answer
+            );
+
+            // Visual feedback
+            if (index === correctIndex) {
+                this.style.backgroundColor = '#4CAF50';
+                feedbackElement.textContent = 'Correct! ' + questions[currentQuestionIndex].explanation;
+                score++;
+                updateScore();
+            } else {
+                this.style.backgroundColor = '#f44336';
+                choiceElements[correctIndex].style.backgroundColor = '#4CAF50';
+                feedbackElement.textContent = 'Incorrect. ' + questions[currentQuestionIndex].explanation;
+            }
+
+            // Show next button
+            nextButton.style.display = 'block';
+            nextButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
-        
-        // Next button loads next question
-        nextButton.addEventListener('click', () => {
-            currentQuestionIndex++;
-            loadQuestion();
+
+        // Add hover effects to choices
+        choice.addEventListener('mouseenter', () => {
+            if (choice.style.pointerEvents !== 'none') {
+                choice.style.transform = 'scale(1.05)';
+                choice.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+            }
         });
-    }
+
+        choice.addEventListener('mouseleave', () => {
+            choice.style.transform = 'scale(1)';
+            choice.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+        });
+    });
+}
     
     function playAudio() {
         audioElement.play().catch(e => console.log('Audio play failed:', e));
