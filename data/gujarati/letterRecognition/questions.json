@@ -1,27 +1,27 @@
 [
   {
-  "question": "ક",
-  "choices": ["ક", "ખ", "ગ", "ઘ"],
+  "question": "क",
+  "choices": ["ક", "ખ","ફ", "ઘ"],
   "answer": "ક",
   "explanation": "કરવું, કમળ, કાગડું, કિતાબ (popular Gujarati words starting with 'ક')",
   "audio": "q1.mp3"
 },
 {
-  "question": "ખ",
-  "choices": ["ખ", "ગ", "ઘ", "ચ"],
+  "question": "ख",
+  "choices": ["ખ", "બ", "ઘ", "ચ"],
   "answer": "ખ",
   "explanation": "ખૂબ, ખોળું, ખમણ, ખીચડી (popular Gujarati words starting with 'ખ')",
   "audio": "q2.mp3"
 },
 {
-  "question": "ગ",
+  "question": "ग",
   "choices": ["ગ", "ઘ", "ચ", "છ"],
   "answer": "ગ",
   "explanation": "ગાય, ગાજર, ગાડી, ગીત (popular Gujarati words starting with 'ગ')",
   "audio": "q3.mp3"
 },
 {
-  "question": "ઘ",
+  "question": "घ",
   "choices": ["ઘ", "ચ", "છ", "જ"],
   "answer": "ઘ",
   "explanation": "ઘર, ઘોડો, ઘમંડ, ઘંટડી (popular Gujarati words starting with 'ઘ')",
@@ -113,7 +113,7 @@
   },
   {
     "question": "ध",
-    "choices": ["ધ", "દ", "ટ", "છ"],
+    "choices": ["ધ", "દ", "ઘ", "છ"],
     "answer": "ધ",
     "explanation": "ધન, ધ્વનિ, ધરા, ધમાલ (popular Gujarati words starting with 'ધ')",
     "audio": "q17.mp3"
@@ -134,14 +134,14 @@
   },
   {
     "question": "फ",
-    "choices": ["ફ", "પ", "ત", "ભ"],
+    "choices": ["ફ", "ક", "ત", "ભ"],
     "answer": "ફ",
     "explanation": "ફૂલ, ફળ, ફટાકડા, ફન (popular Gujarati words starting with 'ફ')",
     "audio": "q20.mp3"
   },
   {
     "question": "ब",
-    "choices": ["બ", "ભ", "પ", "મ"],
+    "choices": ["બ", "ભ", "ખ", "મ"],
     "answer": "બ",
     "explanation": "બસ, બારણું, બપોર, બાલક (popular Gujarati words starting with 'બ')",
     "audio": "q21.mp3"
@@ -162,7 +162,7 @@
   },
   {
     "question": "य",
-    "choices": ["ય", "ર", "શ", "મ"],
+    "choices": ["ય", "ર", "ચ", "મ"],
     "answer": "ય",
     "explanation": "યાત્રા, યોગ, યાદ, યહૂદી (popular Gujarati words starting with 'ય')",
     "audio": "q24.mp3"
@@ -285,6 +285,20 @@
     "answer": "ઔ",
     "explanation": "ઔષધિ, ઔજસ, ઔરંગઝેબ (popular Gujarati words starting with 'ઔ')",
     "audio": "q41.mp3"
-  }
+  },
+  {
+    "question": "जी",
+    "choices": ["જી", "રૂ", "ભૂ", "અ"],
+    "answer": "જી",
+    "explanation": "જીવન , જીત ,જીઓ (popular Gujarati words starting with 'જી')",
+    "audio": "q42.mp3"
+  },
+  {
+    "question": "रू",
+    "choices": ["જી", "રૂ", "ભૂ", "રુ"],
+    "answer": "રૂ",
+    "explanation": "રૂમાલ, રૂપ ,રૂપિયા (popular Gujarati words starting with 'રૂ')",
+    "audio": "q43.mp3"
+  } 
 ]
 
