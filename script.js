@@ -124,9 +124,8 @@ function initQuizPage() {
     let audioElement = new Audio();
     
     // DOM elements
-    const questionElement = document.querySelector('.question');
+    const questionButton = document.getElementById('question-button');
     const choiceElements = document.querySelectorAll('.choice');
-    const audioButton = document.querySelector('.audio-button');
     const feedbackElement = document.querySelector('.feedback');
     const nextButton = document.getElementById('next-button');
     const scoreElement = document.createElement('div');
@@ -146,7 +145,7 @@ function initQuizPage() {
         })
         .catch(error => {
             console.error('Error loading questions:', error);
-            questionElement.textContent = 'Error loading questions';
+            questionButton.textContent = 'Error loading questions';
             feedbackElement.textContent = 'Please check your data files and try again.';
         });
     
@@ -157,7 +156,9 @@ function initQuizPage() {
         }
         
         const question = questions[currentQuestionIndex];
-        questionElement.textContent = question.question;
+        
+        // Set question text (single letter)
+        questionButton.textContent = question.question;
         
         // Load choices
         question.choices.forEach((choice, index) => {
@@ -166,13 +167,10 @@ function initQuizPage() {
             choiceElements[index].style.pointerEvents = 'auto';
         });
         
-        // Load audio
+        // Load audio and set up question button to play it
         if (question.audio) {
             audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
-            audioButton.style.display = 'block';
-            playAudio();
-        } else {
-            audioButton.style.display = 'none';
+            playAudio(); // Auto-play when question loads
         }
         
         // Reset feedback
@@ -213,16 +211,15 @@ function initQuizPage() {
     }
     
     function showQuizComplete() {
-        questionElement.textContent = 'Quiz Completed!';
+        questionButton.textContent = 'Quiz Completed!';
         choiceElements.forEach(el => el.style.display = 'none');
-        audioButton.style.display = 'none';
         nextButton.style.display = 'none';
         feedbackElement.textContent = `Final Score: ${score}/${questions.length}`;
         scoreElement.textContent = '';
     }
     
     // Event listeners
-    audioButton.addEventListener('click', playAudio);
+    questionButton.addEventListener('click', playAudio);
     
     choiceElements.forEach(el => {
         el.addEventListener('click', function() {
