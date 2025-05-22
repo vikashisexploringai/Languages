@@ -1,5 +1,33 @@
 [
   {
+  "question": "ક",
+  "choices": ["ક", "ખ", "ગ", "ઘ"],
+  "answer": "ક",
+  "explanation": "કરવું, કમળ, કાગડું, કિતાબ (popular Gujarati words starting with 'ક')",
+  "audio": "q1.mp3"
+},
+{
+  "question": "ખ",
+  "choices": ["ખ", "ગ", "ઘ", "ચ"],
+  "answer": "ખ",
+  "explanation": "ખૂબ, ખોળું, ખમણ, ખીચડી (popular Gujarati words starting with 'ખ')",
+  "audio": "q2.mp3"
+},
+{
+  "question": "ગ",
+  "choices": ["ગ", "ઘ", "ચ", "છ"],
+  "answer": "ગ",
+  "explanation": "ગાય, ગાજર, ગાડી, ગીત (popular Gujarati words starting with 'ગ')",
+  "audio": "q3.mp3"
+},
+{
+  "question": "ઘ",
+  "choices": ["ઘ", "ચ", "છ", "જ"],
+  "answer": "ઘ",
+  "explanation": "ઘર, ઘોડો, ઘમંડ, ઘંટડી (popular Gujarati words starting with 'ઘ')",
+  "audio": "q4.mp3"
+},
+  {
     "question": "च",
     "choices": ["ચ", "ટ", "ય", "ળ"],
     "answer": "ચ",
