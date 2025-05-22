@@ -159,7 +159,7 @@ function initQuizPage() {
         }
     }
 
-    function setupEventListeners() {
+  /*  function setupEventListeners() {
         questionButton.addEventListener('click', playAudio);
         
         choiceElements.forEach(choice => {
@@ -184,6 +184,51 @@ function initQuizPage() {
             currentQuestionIndex++;
             loadQuestion();
         });
+    } */
+    function setupEventListeners() {
+    questionButton.addEventListener('click', playAudio);
+    
+    choiceElements.forEach(choice => {
+        choice.addEventListener('click', function() {
+            const question = questions[currentQuestionIndex];
+            const selectedChoice = this.textContent; // Get the displayed choice text
+            const correctAnswer = question.answer; // Get the correct answer from question
+            
+            // Compare the selected choice with the correct answer
+            if (selectedChoice === correctAnswer) {
+                // Correct answer - turn green
+                this.style.backgroundColor = '#4CAF50';
+                feedbackElement.textContent = 'Correct! ' + question.explanation;
+                score++;
+            } else {
+                // Wrong answer - turn red and show correct answer
+                this.style.backgroundColor = '#f44336';
+                
+                // Find and highlight the correct choice
+                Array.from(choiceElements).find(choice => 
+                    choice.textContent === correctAnswer
+                ).style.backgroundColor = '#4CAF50';
+                
+                feedbackElement.textContent = 'Incorrect. ' + question.explanation;
+            }
+            
+            // Disable all choices after selection
+            choiceElements.forEach(c => {
+                c.style.pointerEvents = 'none';
+            });
+            
+            // Show next button
+            nextButton.style.display = 'block';
+            
+            // Maintain question visibility
+            ensureQuestionVisible();
+        });
+    });
+
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++;
+        loadQuestion();
+    });
     }
 
     function showQuizComplete() {
