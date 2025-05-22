@@ -1,1 +1,310 @@
-
+[
+  {
+    "question": "अ ?",
+    "choices": ["অ", "ই", "ঋ", "ঔ"],
+    "answer": "অ",
+    "explanation": "অক্ষর (letter), অন্ধ (blind), অলস (lazy), অন্ন (rice)",
+    "audio": "q1.mp3"
+  },
+  {
+    "question": "आ ?",
+    "choices": ["আ", "ঈ", "এ", "ও"],
+    "answer": "আ",
+    "explanation": "আম (mango), আকাশ (sky), আঙুল (finger), আলু (potato)",
+    "audio": "q2.mp3"
+  },
+  {
+    "question": "इ ?",
+    "choices": ["ই", "উ", "ঐ", "ঊ"],
+    "answer": "ই",
+    "explanation": "ইঁদুর (rat), ইচ্ছা (wish), ইতিহাস (history), ইংরেজ (English)",
+    "audio": "q3.mp3"
+  },
+  {
+    "question": "ई ?",
+    "choices": ["ঈ", "অ", "ও", "ঐ"],
+    "answer": "ঈ",
+    "explanation": "ঈগল (eagle), ঈশ্বর (god), ঈর্ষা (jealousy), ঈদ (Eid)",
+    "audio": "q4.mp3"
+  },
+  {
+    "question": "उ ?",
+    "choices": ["উ", "ঊ", "এ", "ঔ"],
+    "answer": "উ",
+    "explanation": "উঁচু (tall), উট (camel), উল্কি (tattoo), উত্তর (answer)",
+    "audio": "q5.mp3"
+  },
+  {
+    "question": "ऊ ?",
+    "choices": ["ঊ", "ও", "ঐ", "আ"],
+    "answer": "ঊ",
+    "explanation": "ঊর্ণা (wool), ঊষা (dawn), ঊর্মি (wave), ঊন (less)",
+    "audio": "q6.mp3"
+  },
+  {
+    "question": "ऋ ?",
+    "choices": ["ঋ", "এ", "ঐ", "ও"],
+    "answer": "ঋ",
+    "explanation": "ঋষি (sage), ঋণ (debt), ঋতু (season), ঋদ্ধ (prosperous)",
+    "audio": "q7.mp3"
+  },
+  {
+    "question": "ए ?",
+    "choices": ["এ", "ঐ", "ও", "আ"],
+    "answer": "এ",
+    "explanation": "এক (one), এই (this), এলাচ (cardamom), এপ্রিল (April)",
+    "audio": "q8.mp3"
+  },
+  {
+    "question": "ऐ ?",
+    "choices": ["ঐ", "ঔ", "উ", "ই"],
+    "answer": "ঐ",
+    "explanation": "ঐক্য (unity), ঐশ্বর্য (wealth), ঐতিহ্য (heritage), ঐন্দ্রজালিক (magical)",
+    "audio": "q9.mp3"
+  },
+  {
+    "question": "ओ ?",
+    "choices": ["ও", "ঔ", "আ", "ঈ"],
+    "answer": "ও",
+    "explanation": "ওজন (weight), ওষুধ (medicine), ওলকপি (kohlrabi), ওড়না (scarf)",
+    "audio": "q10.mp3"
+  },
+  {
+    "question": "औ ?",
+    "choices": ["ঔ", "ও", "ঐ", "ঋ"],
+    "answer": "ঔ",
+    "explanation": "ঔষধ (medicine), ঔদার্য (generosity), ঔচিত্য (propriety), ঔরস (legitimate)",
+    "audio": "q11.mp3"
+  },
+  {
+    "question": "क ?",
+    "choices": ["ক", "খ", "গ", "ঙ"],
+    "answer": "ক",
+    "explanation": "কলা (banana), বই (book), কাল (time), কান (ear)",
+    "audio": "q12.mp3"
+  },
+  {
+    "question": "ख ?",
+    "choices": ["খ", "ঘ", "ছ", "ঠ"],
+    "answer": "খ",
+    "explanation": "খেলা (game), খোকা (kid), খুশি (happy), খাবার (food)",
+    "audio": "q13.mp3"
+  },
+  {
+    "question": "ग ?",
+    "choices": ["গ", "জ", "দ", "ধ"],
+    "answer": "গ",
+    "explanation": "গান (song), গরু (cow), গাছ (tree), গল্প (story)",
+    "audio": "q14.mp3"
+  },
+  {
+    "question": "घ ?",
+    "choices": ["ঘ", "ভ", "ম", "ষ"],
+    "answer": "ঘ",
+    "explanation": "ঘর (house), ঘুম (sleep), ঘোড়া (horse), ঘড়ি (clock)",
+    "audio": "q15.mp3"
+  },
+  {
+    "question": "ङ ?",
+    "choices": ["ঙ", "ঞ", "ণ", "ন"],
+    "answer": "ঙ",
+    "explanation": "অঙ (limb), ডাঙা (land), রঙ (color), শঙ্খ (conch)",
+    "audio": "q16.mp3"
+  },
+  {
+    "question": "च ?",
+    "choices": ["চ", "ছ", "জ", "ঝ"],
+    "answer": "চ",
+    "explanation": "চাল (rice), চশমা (glasses), চাঁদ (moon), চিন্তা (thought)",
+    "audio": "q17.mp3"
+  },
+  {
+    "question": "छ ?",
+    "choices": ["ছ", "ট", "ঠ", "ড"],
+    "answer": "ছ",
+    "explanation": "ছাতা (umbrella), ছেলে (boy), ছোট (small), ছাগল (goat)",
+    "audio": "q18.mp3"
+  },
+  {
+    "question": "ज ?",
+    "choices": ["জ", "ঝ", "য", "ঞ"],
+    "answer": "জ",
+    "explanation": "জল (water), জ্বর (fever), জুতো (shoe), জঙ্গল (jungle)",
+    "audio": "q19.mp3"
+  },
+  {
+    "question": "झ ?",
+    "choices": ["ঝ", "ঞ", "ঠ", "ড"],
+    "answer": "ঝ",
+    "explanation": "ঝড় (storm), ঝুলি (bag), ঝিনুক (shell), ঝকঝক (sparkling)",
+    "audio": "q20.mp3"
+  },
+  {
+    "question": "ञ ?",
+    "choices": ["ঞ", "ণ", "ন", "ম"],
+    "answer": "ঞ",
+    "explanation": "পঞ (five), অঞ (sign), বঞ (arrow), মঞ (opinion)",
+    "audio": "q21.mp3"
+  },
+  {
+    "question": "ट ?",
+    "choices": ["ট", "ঠ", "ড", "ঢ"],
+    "answer": "ট",
+    "explanation": "টাকা (money), টমেটো (tomato), টেবিল (table), টেলিফোন (telephone)",
+    "audio": "q22.mp3"
+  },
+  {
+    "question": "ठ ?",
+    "choices": ["ঠ", "ড", "ঢ", "ণ"],
+    "answer": "ঠ",
+    "explanation": "ঠাকুর (priest), ঠাণ্ডা (cold), ঠিকানা (address), ঠোঁট (lip)",
+    "audio": "q23.mp3"
+  },
+  {
+    "question": "ड ?",
+    "choices": ["ড", "ঢ", "ণ", "ত"],
+    "answer": "ড",
+    "explanation": "ডাক্তার (doctor), ডাল (lentils), ডুমুর (fig), ডান (right)",
+    "audio": "q24.mp3"
+  },
+  {
+    "question": "ढ ?",
+    "choices": ["ঢ", "ড", "ণ", "থ"],
+    "answer": "ঢ",
+    "explanation": "ঢাক (drum), ঢাল (shield), ঢেউ (wave), ঢোকা (to swallow)",
+    "audio": "q25.mp3"
+  },
+  {
+    "question": "ण ?",
+    "choices": ["ণ", "ন", "ত", "থ"],
+    "answer": "ণ",
+    "explanation": "প্রাণ (life), ক্ষণ (moment), রণ (battle), গণ (group)",
+    "audio": "q26.mp3"
+  },
+  {
+    "question": "त ?",
+    "choices": ["ত", "থ", "দ", "ধ"],
+    "answer": "ত",
+    "explanation": "তুমি (you), তারা (star), তালা (lock), তোয়ালে (towel)",
+    "audio": "q27.mp3"
+  },
+  {
+    "question": "थ ?",
+    "choices": ["থ", "দ", "ধ", "ন"],
+    "answer": "থ",
+    "explanation": "থালা (plate), থাম (pillar), থেকো (stay), থুতু (spit)",
+    "audio": "q28.mp3"
+  },
+  {
+    "question": "द ?",
+    "choices": ["দ", "ধ", "ন", "প"],
+    "answer": "দ",
+    "explanation": "দুধ (milk), দাম (price), দোকান (shop), দাঁত (tooth)",
+    "audio": "q29.mp3"
+  },
+  {
+    "question": "ध ?",
+    "choices": ["ধ", "ন", "ভ", "ম"],
+    "answer": "ধ",
+    "explanation": "ধন (wealth), ধরা (to catch), ধুম (smoke), ধান (paddy)",
+    "audio": "q30.mp3"
+  },
+  {
+    "question": "न ?",
+    "choices": ["ন", "প", "ফ", "ব"],
+    "answer": "ন",
+    "explanation": "নদী (river), নাম (name), নীল (blue), নাচ (dance)",
+    "audio": "q31.mp3"
+  },
+  {
+    "question": "प ?",
+    "choices": ["প", "ফ", "ব", "ভ"],
+    "answer": "প",
+    "explanation": "পান (betel leaf), পাখি (bird), পুতুল (doll), পাগল (mad)",
+    "audio": "q32.mp3"
+  },
+  {
+    "question": "फ ?",
+    "choices": ["ফ", "ব", "ভ", "ম"],
+    "answer": "ফ",
+    "explanation": "ফল (fruit), ফুল (flower), ফাঁক (gap), ফিরে (return)",
+    "audio": "q33.mp3"
+  },
+  {
+    "question": "ब ?",
+    "choices": ["ব", "ভ", "ম", "য"],
+    "answer": "ব",
+    "explanation": "বাবা (father), বই (book), বাড়ি (home), বৃষ্টি (rain)",
+    "audio": "q34.mp3"
+  },
+  {
+    "question": "भ ?",
+    "choices": ["ভ", "ম", "য", "র"],
+    "answer": "ভ",
+    "explanation": "ভাত (rice), ভাই (brother), ভয় (fear), ভুল (mistake)",
+    "audio": "q35.mp3"
+  },
+  {
+    "question": "म ?",
+    "choices": ["ম", "য", "র", "ল"],
+    "answer": "ম",
+    "explanation": "মা (mother), মাছ (fish), মুখ (face), মেঘ (cloud)",
+    "audio": "q36.mp3"
+  },
+  {
+    "question": "य ?",
+    "choices": ["য", "র", "ল", "শ"],
+    "answer": "য",
+    "explanation": "যাওয়া (to go), যুদ্ধ (war), যমুনা (Yamuna), যন্ত্র (machine)",
+    "audio": "q37.mp3"
+  },
+  {
+    "question": "र ?",
+    "choices": ["র", "ল", "শ", "ষ"],
+    "answer": "র",
+    "explanation": "রাস্তা (road), রঙ (color), রান্না (cooking), রবিবার (Sunday)",
+    "audio": "q38.mp3"
+  },
+  {
+    "question": "ल ?",
+    "choices": ["ল", "श", "ষ", "स"],
+    "answer": "ল",
+    "explanation": "লেবু (lemon), লোক (people), লতা (vine), লাল (red)",
+    "audio": "q39.mp3"
+  },
+  {
+    "question": "व ?",
+    "choices": ["व", "श", "ष", "स"],
+    "answer": "व",
+    "explanation": "वन (forest), वस्त्र (cloth), वर्षा (rain), विवाह (marriage)",
+    "audio": "q40.mp3"
+  },
+  {
+    "question": "श ?",
+    "choices": ["শ", "ष", "स", "ह"],
+    "answer": "শ",
+    "explanation": "শব্দ (word), শাপ (curse), শান্তি (peace), শীত (winter)",
+    "audio": "q41.mp3"
+  },
+  {
+    "question": "ष ?",
+    "choices": ["ষ", "स", "ह", "ळ"],
+    "answer": "ষ",
+    "explanation": "ষড়যন্ত্র (conspiracy), ষাঁড় (bull), ষটকোণ (hexagon), ষাঁড়গাড়ি (bullock cart)",
+    "audio": "q42.mp3"
+  },
+  {
+    "question": "स ?",
+    "choices": ["स", "ह", "ळ", "क्ष"],
+    "answer": "स",
+    "explanation": "सपना (dream), सफ़र (journey), समान (equal), सभा (meeting)",
+    "audio": "q43.mp3"
+  },
+  {
+    "question": "ह ?",
+    "choices": ["হ", "ळ", "क्ष", "त्र"],
+    "answer": "হ",
+    "explanation": "হাসি (smile), হার (loss), হাসা (laugh), হবু (future)",
+    "audio": "q44.mp3"
+  }
+]
