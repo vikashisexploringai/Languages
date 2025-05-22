@@ -350,3 +350,17 @@ body {
     z-index: 10;
     margin-top: 20px;
 }
+.final-score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4CAF50;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.completion-message {
+    font-size: 1.2rem;
+    color: #666;
+    text-align: center;
+    margin-top: 0.5rem;
+}
