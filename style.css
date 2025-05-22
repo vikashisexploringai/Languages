@@ -201,8 +201,8 @@ body {
 }
 
 
-#next-button {
-    background-color: #4CAF50;
+.next-button {
+    background-color: #2196F3;
     color: white;
     border: none;
     border-radius: 50%;
@@ -216,12 +216,15 @@ body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-#next-button:hover {
+.next-button:hover {
     transform: scale(1.1);
-    background-color: #45a049;
+    background-color: #1976D2;
 }
 
-/* Add to your style.css */
+.next-button:active {
+    transform: scale(0.98);
+}
+
 body {
     padding: 20px; /* Adds breathing room around all content */
     box-sizing: border-box;
