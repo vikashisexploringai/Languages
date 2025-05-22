@@ -1,4 +1,3 @@
-'wordFormation': { displayName: 'Word Formation' }// All language data in one place - easy to add more
 const languageData = {
     'bengali': {
         displayName: 'Bengali',
