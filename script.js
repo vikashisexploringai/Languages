@@ -301,7 +301,6 @@ function initQuizPage() {
     // Quiz state variables
     let questions = [];
     let currentQuestionIndex = 0;
-    let score = 0;
     let audioElement = new Audio();
     
     // DOM elements
@@ -309,11 +308,6 @@ function initQuizPage() {
     const choiceElements = document.querySelectorAll('.choice');
     const feedbackElement = document.querySelector('.feedback');
     const nextButton = document.getElementById('next-button');
-    
-    // Create and position score display - CHANGED TO FIXED POSITION
-    const scoreElement = document.createElement('div');
-    scoreElement.className = 'score-display';
-    document.body.appendChild(scoreElement); // Added to body instead of container
     
     // Load and shuffle questions
     fetch(`data/${language}/${theme}/questions.json`)
@@ -323,7 +317,6 @@ function initQuizPage() {
         })
         .then(data => {
             questions = shuffleArray(data);
-            updateScore(); // Initialize score display
             loadQuestion();
             setupEventListeners();
         })
@@ -375,9 +368,6 @@ function initQuizPage() {
         // Reset feedback and hide next button
         feedbackElement.textContent = '';
         nextButton.style.display = 'none';
-        
-        // Ensure score is visible
-        updateScore();
     }
     
     function setupEventListeners() {
@@ -396,8 +386,6 @@ function initQuizPage() {
                 if (selectedOriginalIndex === correctOriginalIndex) {
                     this.style.backgroundColor = '#4CAF50';
                     feedbackElement.textContent = 'Correct! ' + questions[currentQuestionIndex].explanation;
-                    score++;
-                    updateScore();
                 } else {
                     this.style.backgroundColor = '#f44336';
                     // Find and highlight correct choice
@@ -428,16 +416,10 @@ function initQuizPage() {
         audioElement.play().catch(e => console.log('Audio play failed:', e));
     }
     
-    function updateScore() {
-        scoreElement.textContent = `Score: ${score}/${currentQuestionIndex}`;
-        scoreElement.style.display = 'block'; // Ensure it's always visible
-    }
-    
     function showQuizComplete() {
         questionButton.textContent = '🎉';
         choiceElements.forEach(el => el.style.display = 'none');
         nextButton.style.display = 'none';
-        feedbackElement.textContent = `Final Score: ${score}/${questions.length}`;
-        scoreElement.textContent = `Final: ${score}/${questions.length}`;
+        feedbackElement.textContent = 'Quiz completed!';
     }
 }
