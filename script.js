@@ -4,7 +4,8 @@ const languageData = {
         displayName: 'Bengali',
         sampleChar: 'ব',
         themes: {
-            'letterRecognition': { displayName: 'Letter Recognition' }
+            'letterRecognition': { displayName: 'Letter Recognition' },
+            'wordFormation': { displayName: 'Word Formation' }
         }
     },
     'gujarati': {
