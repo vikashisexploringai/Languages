@@ -221,3 +221,36 @@ body {
     background-color: #45a049;
 }
 
+/* Add to your style.css */
+body {
+    padding: 20px; /* Adds breathing room around all content */
+    box-sizing: border-box;
+}
+
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.question-area {
+    margin: 30px 0; /* More space above and below */
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.question-button {
+    margin: 0 auto; /* Center horizontally */
+    display: block;
+    /* Keep your existing question-button styles */
+}
+
+.choices-row {
+    margin: 25px 0; /* More space between choice rows */
+}
+
