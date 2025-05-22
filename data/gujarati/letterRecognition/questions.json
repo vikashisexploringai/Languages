@@ -1,254 +1,262 @@
 [
   {
-    "question": "'क' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ક", "ભ", "ળ", "ઞ"],
-    "answer": "ક",
-    "explanation": "'ક' is the Gujarati equivalent of Devanagari 'क' (velar consonant)",
-    "audio": "q1.mp3"
-  },
-  {
-    "question": "'ख' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["છ", "ખ", "ધ", "ષ"],
-    "answer": "ખ",
-    "explanation": "'ખ' is the Gujarati equivalent of Devanagari 'ख' (aspirated velar)",
-    "audio": "q2.mp3"
-  },
-  {
-    "question": "'ग' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ગ", "દ", "ઝ", "એ"],
-    "answer": "ગ",
-    "explanation": "'ગ' is the Gujarati equivalent of Devanagari 'ग' (voiced velar)",
-    "audio": "q3.mp3"
-  },
-  {
-    "question": "'घ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ઘ", "ઙ", "થ", "શ"],
-    "answer": "ઘ",
-    "explanation": "'ઘ' is the Gujarati equivalent of Devanagari 'घ' (voiced aspirated velar)",
-    "audio": "q4.mp3"
-  },
-  {
-    "question": "'च' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ચ", "ડ", "ણ", "હ"],
+    "question": "च",
+    "choices": ["ચ", "ટ", "ય", "ળ"],
     "answer": "ચ",
-    "explanation": "'ચ' is the Gujarati equivalent of Devanagari 'च' (palatal consonant)",
+    "explanation": "ચંદ્ર, ચા, ચહેરો, ચંપલ (popular Gujarati words starting with 'ચ')",
     "audio": "q5.mp3"
   },
   {
-    "question": "'छ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["છ", "ય", "ઘ", "ફ"],
+    "question": "छ",
+    "choices": ["છ", "ઘ", "ફ", "ઝ"],
     "answer": "છ",
-    "explanation": "'છ' is the Gujarati equivalent of Devanagari 'छ' (aspirated palatal)",
+    "explanation": "છોકરી, છત્રી, છપાઇ, છાજો (popular Gujarati words starting with 'છ')",
     "audio": "q6.mp3"
   },
   {
-    "question": "'ज' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["જ", "ઓ", "ઠ", "ળ"],
+    "question": "ज",
+    "choices": ["જ", "ણ", "ડ", "ભ"],
     "answer": "જ",
-    "explanation": "'જ' is the Gujarati equivalent of Devanagari 'ज' (voiced palatal)",
+    "explanation": "જલ, જગ્યા, જણ, જગત (popular Gujarati words starting with 'જ')",
     "audio": "q7.mp3"
   },
   {
-    "question": "'झ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ઝ", "ઢ", "ન", "ર"],
+    "question": "झ",
+    "choices": ["ઝ", "છ", "ઘ", "ટ"],
     "answer": "ઝ",
-    "explanation": "'ઝ' is the Gujarati equivalent of Devanagari 'झ' (voiced aspirated palatal)",
+    "explanation": "ઝાડ, ઝરણું, ઝબકા, ઝુલો (popular Gujarati words starting with 'ઝ')",
     "audio": "q8.mp3"
   },
   {
-    "question": "'ट' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ટ", "ત", "મ", "ઔ"],
+    "question": "ट",
+    "choices": ["ટ", "ચ", "ઝ", "ર"],
     "answer": "ટ",
-    "explanation": "'ટ' is the Gujarati equivalent of Devanagari 'ट' (retroflex consonant)",
+    "explanation": "ટોપી, ટેબલ, ટપાલ, ટોળું (popular Gujarati words starting with 'ટ')",
     "audio": "q9.mp3"
   },
   {
-    "question": "'ठ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ઠ", "આ", "ભ", "ઞ"],
+    "question": "ठ",
+    "choices": ["ઠ", "ખ", "ઝ", "ભ"],
     "answer": "ઠ",
-    "explanation": "'ઠ' is the Gujarati equivalent of Devanagari 'ठ' (aspirated retroflex)",
+    "explanation": "ઠંડું, ઠેકાણું, ઠસારો, ઠક્કર (popular Gujarati words starting with 'ઠ')",
     "audio": "q10.mp3"
   },
   {
-    "question": "'ड' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ડ", "ઈ", "ષ", "છ"],
+    "question": "ड",
+    "choices": ["ડ", "ઢ", "દ", "ન"],
     "answer": "ડ",
-    "explanation": "'ડ' is the Gujarati equivalent of Devanagari 'ड' (voiced retroflex)",
+    "explanation": "ડબ્બો, ડાંગર, ડાયરેક્ટર, ડામર (popular Gujarati words starting with 'ડ')",
     "audio": "q11.mp3"
   },
   {
-    "question": "'ढ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ઢ", "ઊ", "જ", "દ"],
+    "question": "ढ",
+    "choices": ["ઢ", "ડ", "ઘ", "ટ"],
     "answer": "ઢ",
-    "explanation": "'ઢ' is the Gujarati equivalent of Devanagari 'ढ' (voiced aspirated retroflex)",
+    "explanation": "ઢોલ, ઢાક, ઢાંકણું, ઢગલો (popular Gujarati words starting with 'ઢ')",
     "audio": "q12.mp3"
   },
   {
-    "question": "'त' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ત", "એ", "ગ", "ય"],
-    "answer": "ત",
-    "explanation": "'ત' is the Gujarati equivalent of Devanagari 'त' (dental consonant)",
+    "question": "ण",
+    "choices": ["ણ", "ન", "ય", "શ"],
+    "answer": "ણ",
+    "explanation": "ણકડી, ણમ્રતા, ણણાઈ, ણમો (popular Gujarati words starting with 'ણ')",
     "audio": "q13.mp3"
   },
   {
-    "question": "'थ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["થ", "ઑ", "ટ", "વ"],
-    "answer": "થ",
-    "explanation": "'થ' is the Gujarati equivalent of Devanagari 'थ' (aspirated dental)",
+    "question": "त",
+    "choices": ["ત", "થ", "ડ", "પ"],
+    "answer": "ત",
+    "explanation": "તારું,Tolerance,તબેલા,તબલ્યો (popular Gujarati words starting with 'ત')",
     "audio": "q14.mp3"
   },
   {
-    "question": "'द' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["દ", "ણ", "ક", "સ"],
-    "answer": "દ",
-    "explanation": "'દ' is the Gujarati equivalent of Devanagari 'द' (voiced dental)",
+    "question": "थ",
+    "choices": ["થ", "ત", "ફ", "ઘ"],
+    "answer": "થ",
+    "explanation": "થાળો, થાળી, થાંભલો, થકાન (popular Gujarati words starting with 'થ')",
     "audio": "q15.mp3"
   },
   {
-    "question": "'ध' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ધ", "ઋ", "છ", "પ"],
-    "answer": "ધ",
-    "explanation": "'ધ' is the Gujarati equivalent of Devanagari 'ध' (voiced aspirated dental)",
+    "question": "द",
+    "choices": ["દ", "ડ", "ભ", "ઘ"],
+    "answer": "દ",
+    "explanation": "દિવસ, દરવાજો, દૂધ, દાંત (popular Gujarati words starting with 'દ')",
     "audio": "q16.mp3"
   },
   {
-    "question": "'प' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["પ", "ઍ", "ઢ", "ઙ"],
-    "answer": "પ",
-    "explanation": "'પ' is the Gujarati equivalent of Devanagari 'प' (labial consonant)",
+    "question": "ध",
+    "choices": ["ધ", "દ", "ટ", "છ"],
+    "answer": "ધ",
+    "explanation": "ધન, ધ્વનિ, ધરા, ધમાલ (popular Gujarati words starting with 'ધ')",
     "audio": "q17.mp3"
   },
   {
-    "question": "'फ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ફ", "ઐ", "ઠ", "ઘ"],
-    "answer": "ફ",
-    "explanation": "'ફ' is the Gujarati equivalent of Devanagari 'फ' (aspirated labial)",
+    "question": "न",
+    "choices": ["ન", "ણ", "મ", "ભ"],
+    "answer": "ન",
+    "explanation": "નમસ્કાર, નદી, નવરાત્રી, નમક (popular Gujarati words starting with 'ન')",
     "audio": "q18.mp3"
   },
   {
-    "question": "'ब' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["બ", "ઓ", "થ", "ળ"],
-    "answer": "બ",
-    "explanation": "'બ' is the Gujarati equivalent of Devanagari 'ब' (voiced labial)",
+    "question": "प",
+    "choices": ["પ", "ફ", "ત", "ભ"],
+    "answer": "પ",
+    "explanation": "પાણી, પત્ર, પગ, પશુ (popular Gujarati words starting with 'પ')",
     "audio": "q19.mp3"
   },
   {
-    "question": "'भ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ભ", "ઔ", "દ", "ઞ"],
-    "answer": "ભ",
-    "explanation": "'ભ' is the Gujarati equivalent of Devanagari 'भ' (voiced aspirated labial)",
+    "question": "फ",
+    "choices": ["ફ", "પ", "ત", "ભ"],
+    "answer": "ફ",
+    "explanation": "ફૂલ, ફળ, ફટાકડા, ફન (popular Gujarati words starting with 'ફ')",
     "audio": "q20.mp3"
   },
   {
-    "question": "'य' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ય", "ા", "ષ", "ઙ"],
-    "answer": "ય",
-    "explanation": "'ય' is the Gujarati equivalent of Devanagari 'य' (palatal approximant)",
+    "question": "ब",
+    "choices": ["બ", "ભ", "પ", "મ"],
+    "answer": "બ",
+    "explanation": "બસ, બારણું, બપોર, બાલક (popular Gujarati words starting with 'બ')",
     "audio": "q21.mp3"
   },
   {
-    "question": "'र' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ર", "ી", "હ", "ઘ"],
-    "answer": "ર",
-    "explanation": "'ર' is the Gujarati equivalent of Devanagari 'र' (alveolar trill)",
+    "question": "भ",
+    "choices": ["ભ", "બ", "પ", "ધ"],
+    "answer": "ભ",
+    "explanation": "ભાઈ, ભાવ, ભીડ, ભવિષ્ય (popular Gujarati words starting with 'ભ')",
     "audio": "q22.mp3"
   },
   {
-    "question": "'ल' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["લ", "ુ", "ફ", "ચ"],
-    "answer": "લ",
-    "explanation": "'લ' is the Gujarati equivalent of Devanagari 'ल' (dental lateral approximant)",
+    "question": "म",
+    "choices": ["મ", "ન", "બ", "ય"],
+    "answer": "મ",
+    "explanation": "માતાજી, મકાન, મજા, મીઠું (popular Gujarati words starting with 'મ')",
     "audio": "q23.mp3"
   },
   {
-    "question": "'व' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["વ", "ૂ", "ટ", "છ"],
-    "answer": "વ",
-    "explanation": "'વ' is the Gujarati equivalent of Devanagari 'व' (labio-dental approximant)",
+    "question": "य",
+    "choices": ["ય", "ર", "શ", "મ"],
+    "answer": "ય",
+    "explanation": "યાત્રા, યોગ, યાદ, યહૂદી (popular Gujarati words starting with 'ય')",
     "audio": "q24.mp3"
   },
   {
-    "question": "'श' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["શ", "ે", "ડ", "ખ"],
-    "answer": "શ",
-    "explanation": "'શ' is the Gujarati equivalent of Devanagari 'श' (palatal fricative)",
+    "question": "र",
+    "choices": ["ર", "ય", "લ", "વ"],
+    "answer": "ર",
+    "explanation": "રોટલો, રામ, રસ્તો, રવિ (popular Gujarati words starting with 'ર')",
     "audio": "q25.mp3"
   },
   {
-    "question": "'ष' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ષ", "ૈ", "ણ", "ગ"],
-    "answer": "ષ",
-    "explanation": "'ષ' is the Gujarati equivalent of Devanagari 'ष' (retroflex fricative)",
+    "question": "ल",
+    "choices": ["લ", "વ", "શ", "ય"],
+    "answer": "લ",
+    "explanation": "લોટ, લાડુ, લાઈટ, લોટો (popular Gujarati words starting with 'લ')",
     "audio": "q26.mp3"
   },
   {
-    "question": "'स' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["સ", "ો", "ઢ", "ભ"],
-    "answer": "સ",
-    "explanation": "'સ' is the Gujarati equivalent of Devanagari 'स' (dental fricative)",
+    "question": "व",
+    "choices": ["વ", "લ", "ય", "શ"],
+    "answer": "વ",
+    "explanation": "વન, વર, વાત, વાસી (popular Gujarati words starting with 'વ')",
     "audio": "q27.mp3"
   },
   {
-    "question": "'ह' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["હ", "ૌ", "ધ", "ય"],
-    "answer": "હ",
-    "explanation": "'હ' is the Gujarati equivalent of Devanagari 'ह' (glottal fricative)",
+    "question": "श",
+    "choices": ["શ", "ષ", "સ", "હ"],
+    "answer": "શ",
+    "explanation": "શબ્દ, શરમ, શરુઆત, શાંત (popular Gujarati words starting with 'શ')",
     "audio": "q28.mp3"
   },
   {
-    "question": "'ड़' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ડ", "ં", "ળ", "ઞ"],
-    "answer": "ડ",
-    "explanation": "In Gujarati, 'ડ' represents both 'ड' and 'ड़' sounds",
+    "question": "ष",
+    "choices": ["ષ", "શ", "સ", "હ"],
+    "answer": "ષ",
+    "explanation": "ષડ્રિપુ, ષટ્કોણ, ષણ્મુખ, ષણમાસ (popular Gujarati words starting with 'ષ')",
     "audio": "q29.mp3"
   },
   {
-    "question": "'ढ़' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ઢ", "ઃ", "ષ", "ણ"],
-    "answer": "ઢ",
-    "explanation": "In Gujarati, 'ઢ' represents both 'ढ' and 'ढ़' sounds",
+    "question": "स",
+    "choices": ["સ", "શ", "ષ", "હ"],
+    "answer": "સ",
+    "explanation": "સૂરજ, સ્નાન, સાપ, સંગ્રહ (popular Gujarati words starting with 'સ')",
     "audio": "q30.mp3"
   },
   {
-    "question": "'ञ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ઞ", "્", "ઙ", "જ"],
-    "answer": "ઞ",
-    "explanation": "'ઞ' is the Gujarati equivalent of Devanagari 'ञ' (palatal nasal)",
+    "question": "ह",
+    "choices": ["હ", "સ", "શ", "ય"],
+    "answer": "હ",
+    "explanation": "હાથ, હર્ષ, હોળી, હસવું (popular Gujarati words starting with 'હ')",
     "audio": "q31.mp3"
   },
   {
-    "question": "'ण' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ણ", "ઋ", "ન", "છ"],
-    "answer": "ણ",
-    "explanation": "'ણ' is the Gujarati equivalent of Devanagari 'ण' (retroflex nasal)",
+    "question": "अ",
+    "choices": ["અ", "આ", "ઇ", "ઈ"],
+    "answer": "અ",
+    "explanation": "અગર, અખબાર, અવકાશ (popular Gujarati words starting with 'અ')",
     "audio": "q32.mp3"
   },
   {
-    "question": "'न' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ન", "ૠ", "મ", "ઘ"],
-    "answer": "ન",
-    "explanation": "'ન' is the Gujarati equivalent of Devanagari 'न' (dental nasal)",
+    "question": "आ",
+    "choices": ["આ", "અ", "ઇ", "ઈ"],
+    "answer": "આ",
+    "explanation": "આમ, આકાશ, આંગણું,આત્મા (popular Gujarati words starting with 'આ')",
     "audio": "q33.mp3"
   },
   {
-    "question": "'म' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["મ", "ઍ", "બ", "થ"],
-    "answer": "મ",
-    "explanation": "'મ' is the Gujarati equivalent of Devanagari 'म' (labial nasal)",
+    "question": "इ",
+    "choices": ["ઇ", "ઈ", "ઉ", "ઊ"],
+    "answer": "ઇ",
+    "explanation": "ઇમારત, ઇતિહાસ, ઈન્દ્રધનુષ્ય (popular Gujarati words starting with 'ઇ')",
     "audio": "q34.mp3"
   },
   {
-    "question": "'ङ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ઙ", "ઑ", "ય", "દ"],
-    "answer": "ઙ",
-    "explanation": "'ઙ' is the Gujarati equivalent of Devanagari 'ङ' (velar nasal)",
+    "question": "ई",
+    "choices": ["ઈ", "ઇ", "ઉ", "ઊ"],
+    "answer": "ઈ",
+    "explanation": "ઈમાનદારી, ઈશ્વર, ઈમેઈલ (popular Gujarati words starting with 'ઈ')",
     "audio": "q35.mp3"
   },
   {
-    "question": "'ळ' को गुजराती में कैसे लिखा जाता है?",
-    "choices": ["ળ", "એ", "વ", "ઠ"],
-    "answer": "ળ",
-    "explanation": "'ળ' is a special retroflex lateral in Gujarati with no exact Hindi equivalent",
+    "question": "उ",
+    "choices": ["ઉ", "ઊ", "એ", "ઐ"],
+    "answer": "ઉ",
+    "explanation": "ઉપકરણ, ઉત્તમ, ઉદય (popular Gujarati words starting with 'ઉ')",
     "audio": "q36.mp3"
+  },
+  {
+    "question": "ऊ",
+    "choices": ["ઊ", "ઉ", "એ", "ઓ"],
+    "answer": "ઊ",
+    "explanation": "ઊજળ, ઊંચાઈ, ઊલટફેર (popular Gujarati words starting with 'ઊ')",
+    "audio": "q37.mp3"
+  },
+  {
+    "question": "ए",
+    "choices": ["એ", "ઐ", "ઓ", "ઉ"],
+    "answer": "એ",
+    "explanation": "એમ્બુલન્સ, એકલ, એન્ટ્રેન્સ (popular Gujarati words starting with 'એ')",
+    "audio": "q38.mp3"
+  },
+  {
+    "question": "ऐ",
+    "choices": ["ઐ", "એ", "ઓ", "અ"],
+    "answer": "ઐ",
+    "explanation": "ઐશ્વર્ય, ઐતિહાસિક, ઐનંદ (popular Gujarati words starting with 'ઐ')",
+    "audio": "q39.mp3"
+  },
+  {
+    "question": "ओ",
+    "choices": ["ઓ", "ઔ", "એ", "આ"],
+    "answer": "ઓ",
+    "explanation": "ઓજસ, ઓરડું, ઓકાસ (popular Gujarati words starting with 'ઓ')",
+    "audio": "q40.mp3"
+  },
+  {
+    "question": "औ",
+    "choices": ["ઔ", "ઓ", "એ", "અ"],
+    "answer": "ઔ",
+    "explanation": "ઔષધિ, ઔજસ, ઔરંગઝેબ (popular Gujarati words starting with 'ઔ')",
+    "audio": "q41.mp3"
   }
 ]
+
