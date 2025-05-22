@@ -338,3 +338,15 @@ body {
     padding-top: 20px;
     padding-bottom: 40px;
 }
+
+.quiz-container {
+    overflow-y: auto;
+    height: 100vh;
+    scroll-behavior: smooth;
+}
+
+.question-button {
+    position: relative;
+    z-index: 10;
+    margin-top: 20px;
+}
