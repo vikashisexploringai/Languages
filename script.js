@@ -224,23 +224,6 @@ function loadQuestion() {
     feedbackElement.textContent = '';
     nextButton.style.display = 'none';
     
-    // Ensure next button maintains its styling
-    nextButton.style.cssText = `
-        background-color: #2196F3;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        font-size: 2.5rem;
-        cursor: pointer;
-        transition: all 0.3s;
-        display: none;
-        margin: 20px auto;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    `;
-    
-    // Ensure proper visibility
     setTimeout(() => {
         questionButton.scrollIntoView({
             behavior: 'smooth',
