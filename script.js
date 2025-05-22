@@ -195,7 +195,7 @@ questionButton.style.padding = qConfig.padding;
         });
     }
 
-/* function initQuizPage() {
+function initQuizPage() {
     // Get quiz parameters
     const urlParams = new URLSearchParams(window.location.search);
     const language = urlParams.get('language') || sessionStorage.getItem('currentLanguage');
@@ -323,8 +323,8 @@ questionButton.style.padding = qConfig.padding;
         questionButton.textContent = '⚠️';
         feedbackElement.textContent = 'Failed to load questions. Please try again.';
     }
-            }*/
-    function initQuizPage() {
+            }
+   /* function initQuizPage() {
     // Get quiz parameters
     const urlParams = new URLSearchParams(window.location.search);
     const language = urlParams.get('language') || sessionStorage.getItem('currentLanguage');
@@ -485,3 +485,4 @@ questionButton.style.padding = qConfig.padding;
         return 'Keep learning! You\'ll improve! 💪';
     }
     }
+*/
