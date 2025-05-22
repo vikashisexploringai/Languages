@@ -160,3 +160,42 @@ body {
     background-color: #7B1FA2;
     transform: scale(1.02);
 }
+/* Add these to your existing CSS */
+.quiz-container {
+    padding-top: 20px; /* Add some top padding */
+}
+
+.question-area {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.question-button {
+    font-size: 8rem;
+    padding: 2rem 4rem; /* Increased horizontal padding */
+    background-color: #9C27B0;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+/* Make the next button larger and more prominent */
+.nav-button {
+    font-size: 2rem;
+    padding: 1rem 2rem;
+    margin: 1rem auto; /* Center the button */
+    display: block;
+    width: fit-content;
+}
+
+/* Remove any existing theme-button styles if they exist */
+#theme-button {
+    display: none;
+}
