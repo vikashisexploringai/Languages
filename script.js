@@ -183,6 +183,11 @@ function initQuizPage() {
         }
         
         const question = questions[currentQuestionIndex];
+
+        const questionButton = document.getElementById('question-button');
+        
+        // Center the question in view
+        questionButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
         // Set question text (single letter)
         questionButton.textContent = question.question;
