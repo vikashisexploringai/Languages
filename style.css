@@ -81,11 +81,6 @@ body {
     transition: all 0.3s;
 }
 
-.audio-button:hover {
-    background-color: #e68a00;
-    transform: scale(1.1);
-}
-
 .choices-row {
     display: flex;
     justify-content: space-between;
@@ -141,4 +136,27 @@ body {
 
 #theme-button:hover {
     background-color: #d32f2f;
+}
+
+
+.question-button {
+    font-size: 8rem;
+    padding: 2rem 0;
+    background-color: #9C27B0; /* Different color from choices */
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    width: 100%;
+    border: none;
+}
+
+.question-button:hover {
+    background-color: #7B1FA2;
+    transform: scale(1.02);
 }
