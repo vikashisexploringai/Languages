@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Learning Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="question-container">
+            <div class="question"></div>
+            <button class="audio-button">🔊 Play Question</button>
+        </div>
+        
+        <div class="choices-row">
+            <div class="choice" data-index="0"></div>
+            <div class="choice" data-index="1"></div>
+        </div>
+        
+        <div class="choices-row">
+            <div class="choice" data-index="2"></div>
+            <div class="choice" data-index="3"></div>
+        </div>
+        
+        <div class="feedback"></div>
+        <button id="next-button" class="nav-button">Next Question</button>
+        <button id="theme-button" class="nav-button">Back to Themes</button>
+    </div>
+    <script src="script.js"></script>
+    <script src="quiz.js"></script>
+</body>
+</html>
