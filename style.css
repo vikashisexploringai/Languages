@@ -254,3 +254,50 @@ body {
     margin: 25px 0; /* More space between choice rows */
 }
 
+/* Mobile-first base styles */
+.question-button, .choice {
+    font-size: 6rem;
+    padding: 1.5rem;
+    margin: 0.5rem;
+    box-sizing: border-box;
+}
+
+/* Container adjustments */
+.quiz-container {
+    padding: 1rem;
+    max-width: 95vw;
+    margin: 0 auto;
+}
+
+/* Desktop-specific adjustments */
+@media (min-width: 768px) {
+    .quiz-container {
+        padding: 2rem;
+        max-width: 800px;
+    }
+    
+    .question-button {
+        font-size: 5rem;
+        padding: 1rem 2rem;
+        margin: 1rem auto;
+    }
+    
+    .choice {
+        font-size: 5rem;
+        padding: 1rem;
+        margin: 0.75rem;
+    }
+    
+    .choices-row {
+        justify-content: center;
+    }
+}
+
+/* Very large screens */
+@media (min-width: 1200px) {
+    .choice {
+        font-size: 6rem;
+        padding: 1.5rem;
+    }
+}
+
