@@ -165,41 +165,74 @@ function initQuizPage() {
         return newArray;
     }
     
-    function loadQuestion() {
-        if (currentQuestionIndex >= questions.length) {
-            showQuizComplete();
-            return;
-        }
-        
-        const question = questions[currentQuestionIndex];
-        
-        // Update question display
-        questionButton.textContent = question.question;
-        questionButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Shuffle the choices array
-        const shuffledChoices = shuffleArray([...question.choices]);
-        
-        // Update choices with shuffled options
-        shuffledChoices.forEach((choice, index) => {
-            choiceElements[index].textContent = choice;
-            choiceElements[index].style.backgroundColor = '#2196F3';
-            choiceElements[index].style.pointerEvents = 'auto';
-            
-            // Store original index for answer checking
-            choiceElements[index].dataset.originalIndex = question.choices.indexOf(choice);
-        });
-        
-        // Load and play audio
-        if (question.audio) {
-            audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
-            playAudio();
-        }
-        
-        // Reset feedback
-        feedbackElement.textContent = '';
-        nextButton.style.display = 'none';
+function loadQuestion() {
+    // Check if quiz is complete
+    if (currentQuestionIndex >= questions.length) {
+        showQuizComplete();
+        return;
     }
+
+    const question = questions[currentQuestionIndex];
+    
+    // Detect device type
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const isTablet = window.matchMedia("(max-width: 1024px)").matches;
+    
+    // Responsive sizing
+    const baseQuestionSize = isMobile ? 6 : isTablet ? 5.5 : 5;
+    const baseChoiceSize = isMobile ? 7 : isTablet ? 6.5 : 6;
+    
+    // Apply responsive styles
+    questionButton.style.cssText = `
+        font-size: ${baseQuestionSize}rem;
+        padding: ${isMobile ? '1.5rem' : '1.25rem'} ${isMobile ? '3rem' : '2.5rem'};
+        margin: ${isMobile ? '0.5rem auto' : '1rem auto'};
+        min-width: ${isMobile ? '90%' : '80%'};
+        max-width: ${isMobile ? '95vw' : '600px'};
+    `;
+    
+    // Apply to all choices
+    choiceElements.forEach(choice => {
+        choice.style.cssText = `
+            font-size: ${baseChoiceSize}rem;
+            padding: ${isMobile ? '1.5rem 0' : '1.25rem 0'};
+            margin: ${isMobile ? '0.25rem' : '0.5rem'};
+            min-width: ${isMobile ? '45%' : '40%'};
+            flex: 1 1 auto;
+        `;
+    });
+    
+    // Set question content
+    questionButton.textContent = question.question;
+    
+    // Shuffle and load choices
+    const shuffledChoices = shuffleArray([...question.choices]);
+    shuffledChoices.forEach((choice, index) => {
+        choiceElements[index].textContent = choice;
+        choiceElements[index].style.backgroundColor = '#2196F3';
+        choiceElements[index].style.pointerEvents = 'auto';
+        choiceElements[index].dataset.originalIndex = question.choices.indexOf(choice);
+    });
+    
+    // Load and auto-play audio
+    if (question.audio) {
+        audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
+        playAudio();
+    }
+    
+    // Reset UI state
+    feedbackElement.textContent = '';
+    nextButton.style.display = 'none';
+    
+    // Ensure proper visibility
+    setTimeout(() => {
+        questionButton.scrollIntoView({
+            behavior: 'auto',
+            block: 'center',
+            inline: 'center'
+        });
+    }, 50);
+}
     
     function setupEventListeners() {
         // Question button plays audio
