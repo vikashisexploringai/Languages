@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Learning Quiz</title>
+    <title>Script Learning - Choose Language</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <div id="language-container" class="main-section"></div>
-        <div id="skill-container" class="main-section" style="display:none"></div>
-        <div id="theme-container" class="main-section" style="display:none"></div>
-        <div id="quiz-container" class="main-section" style="display:none"></div>
-        <div id="result-container" class="main-section" style="display:none"></div>
+        <h1 class="title">Choose a Language to Learn</h1>
+        <div class="choices-grid">
+            <div class="language-choice" data-language="gujarati">
+                <div class="language-letter">ગ</div>
+                <div class="language-name">Gujarati</div>
+            </div>
+            <div class="language-choice" data-language="bengali">
+                <div class="language-letter">ব</div>
+                <div class="language-name">Bengali</div>
+            </div>
+            <!-- Add more languages as needed -->
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
