@@ -128,6 +128,15 @@ function initQuizPage() {
     const choiceElements = document.querySelectorAll('.choice');
     const feedbackElement = document.querySelector('.feedback');
     const nextButton = document.getElementById('next-button');
+    const themeButton = document.getElementById('theme-button');
+    
+    // Check if required elements exist
+    if (!questionButton || !choiceElements.length || !feedbackElement || !nextButton || !themeButton) {
+        console.error('Required DOM elements not found');
+        return;
+    }
+    
+    // Create and add score display
     const scoreElement = document.createElement('div');
     scoreElement.className = 'score-display';
     document.querySelector('.quiz-container').prepend(scoreElement);
@@ -142,15 +151,33 @@ function initQuizPage() {
             questions = data;
             updateScore();
             loadQuestion();
+            
+            // Add event listeners only after DOM is ready and elements exist
+            questionButton.addEventListener('click', playAudio);
+            
+            choiceElements.forEach(el => {
+                el.addEventListener('click', function() {
+                    checkAnswer(parseInt(this.dataset.index));
+                });
+            });
+            
+            nextButton.addEventListener('click', () => {
+                currentQuestionIndex++;
+                loadQuestion();
+            });
+            
+            themeButton.addEventListener('click', () => {
+                window.location.href = 'theme.html';
+            });
         })
         .catch(error => {
             console.error('Error loading questions:', error);
-            questionButton.textContent = 'Error loading questions';
-            feedbackElement.textContent = 'Please check your data files and try again.';
+            if (questionButton) questionButton.textContent = 'Error loading questions';
+            if (feedbackElement) feedbackElement.textContent = 'Please check your data files and try again.';
         });
     
     function loadQuestion() {
-        if (currentQuestionIndex >= questions.length) {
+        if (!questions.length || currentQuestionIndex >= questions.length) {
             showQuizComplete();
             return;
         }
@@ -162,12 +189,14 @@ function initQuizPage() {
         
         // Load choices
         question.choices.forEach((choice, index) => {
-            choiceElements[index].textContent = choice;
-            choiceElements[index].style.backgroundColor = '#2196F3';
-            choiceElements[index].style.pointerEvents = 'auto';
+            if (choiceElements[index]) {
+                choiceElements[index].textContent = choice;
+                choiceElements[index].style.backgroundColor = '#2196F3';
+                choiceElements[index].style.pointerEvents = 'auto';
+            }
         });
         
-        // Load audio and set up question button to play it
+        // Load audio
         if (question.audio) {
             audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
             playAudio(); // Auto-play when question loads
@@ -194,13 +223,15 @@ function initQuizPage() {
             updateScore();
         } else {
             choiceElements[selectedIndex].style.backgroundColor = '#f44336';
-            choiceElements[correctIndex].style.backgroundColor = '#4CAF50';
+            if (choiceElements[correctIndex]) {
+                choiceElements[correctIndex].style.backgroundColor = '#4CAF50';
+            }
             feedbackElement.textContent = 'Incorrect. ' + questions[currentQuestionIndex].explanation;
         }
         
         // Disable further selections
         choiceElements.forEach(choice => {
-            choice.style.pointerEvents = 'none';
+            if (choice) choice.style.pointerEvents = 'none';
         });
         
         nextButton.style.display = 'block';
@@ -211,28 +242,12 @@ function initQuizPage() {
     }
     
     function showQuizComplete() {
-        questionButton.textContent = 'Quiz Completed!';
-        choiceElements.forEach(el => el.style.display = 'none');
-        nextButton.style.display = 'none';
-        feedbackElement.textContent = `Final Score: ${score}/${questions.length}`;
-        scoreElement.textContent = '';
-    }
-    
-    // Event listeners
-    questionButton.addEventListener('click', playAudio);
-    
-    choiceElements.forEach(el => {
-        el.addEventListener('click', function() {
-            checkAnswer(parseInt(this.dataset.index));
+        if (questionButton) questionButton.textContent = 'Quiz Completed!';
+        choiceElements.forEach(el => {
+            if (el) el.style.display = 'none';
         });
-    });
-    
-    nextButton.addEventListener('click', () => {
-        currentQuestionIndex++;
-        loadQuestion();
-    });
-    
-    document.getElementById('theme-button').addEventListener('click', () => {
-        window.location.href = 'theme.html';
-    });
+        if (nextButton) nextButton.style.display = 'none';
+        if (feedbackElement) feedbackElement.textContent = `Final Score: ${score}/${questions.length}`;
+        if (scoreElement) scoreElement.textContent = '';
+    }
 }
