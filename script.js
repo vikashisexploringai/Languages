@@ -155,35 +155,48 @@ function initQuizPage() {
         });
     
     function loadQuestion() {
-        // Check if quiz is complete
-        if (currentQuestionIndex >= questions.length) {
-            showQuizComplete();
-            return;
-        }
-        
-        const question = questions[currentQuestionIndex];
-        
-        // Update question display
-        questionButton.textContent = question.question;
-        questionButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Update choices
-        question.choices.forEach((choice, index) => {
-            choiceElements[index].textContent = choice;
-            choiceElements[index].style.backgroundColor = '#2196F3';
-            choiceElements[index].style.pointerEvents = 'auto';
+    if (currentQuestionIndex >= questions.length) {
+        showQuizComplete();
+        return;
+    }
+
+    const question = questions[currentQuestionIndex];
+    questionButton.textContent = question.question;
+
+    // Reset UI
+    questionButton.style.visibility = 'hidden'; // Hide temporarily
+    feedbackElement.textContent = '';
+    nextButton.style.display = 'none';
+
+    // Load choices
+    question.choices.forEach((choice, index) => {
+        choiceElements[index].textContent = choice;
+        choiceElements[index].style.backgroundColor = '#2196F3';
+        choiceElements[index].style.pointerEvents = 'auto';
+    });
+
+    // Load audio
+    if (question.audio) {
+        audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
+        playAudio();
+    }
+
+    // Ensure proper positioning
+    setTimeout(() => {
+        questionButton.style.visibility = 'visible';
+        questionButton.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center'
         });
         
-        // Load and play audio
-        if (question.audio) {
-            audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
-            playAudio();
-        }
-        
-        // Reset UI state
-        feedbackElement.textContent = '';
-        nextButton.style.display = 'none';
-    }
+        // Extra insurance for mobile browsers
+        window.scrollTo({
+            top: questionButton.offsetTop - 100,
+            behavior: 'smooth'
+        });
+    }, 50);
+}
     
     function setupEventListeners() {
     // Configure the next button appearance
