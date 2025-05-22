@@ -1,31 +1,46 @@
-const subjects = {
+// All language data in one place - easy to add more
+const languageData = {
     'bengali': {
         displayName: 'Bengali',
+        sampleChar: 'ব',
         themes: {
             'letterRecognition': { displayName: 'Letter Recognition' }
         }
     },
     'gujarati': {
         displayName: 'Gujarati',
+        sampleChar: 'ગ',
+        themes: {
+            'letterRecognition': { displayName: 'Letter Recognition' }
+        }
+    },
+    'hindi': {
+        displayName: 'Hindi',
+        sampleChar: 'ह',
+        themes: {
+            'letterRecognition': { displayName: 'Letter Recognition' },
+            'basicWords': { displayName: 'Basic Words' }
+        }
+    },
+    'tamil': {
+        displayName: 'Tamil',
+        sampleChar: 'த',
         themes: {
             'letterRecognition': { displayName: 'Letter Recognition' }
         }
     }
+    // Add more languages here following the same pattern
 };
-
-// Store selected language and theme
-let currentLanguage = '';
-let currentTheme = '';
 
 // Initialize based on current page
 document.addEventListener('DOMContentLoaded', () => {
     // Language selection page
-    if (document.querySelector('.language-choice')) {
-        initLanguageSelection();
+    if (document.getElementById('language-container')) {
+        initLanguagePage();
     }
     // Theme selection page
     else if (document.getElementById('theme-container')) {
-        initThemeSelection();
+        initThemePage();
     }
     // Quiz page
     else if (document.querySelector('.quiz-container')) {
@@ -33,22 +48,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-function initLanguageSelection() {
-    const languageChoices = document.querySelectorAll('.language-choice');
-    languageChoices.forEach(choice => {
-        choice.addEventListener('click', () => {
-            currentLanguage = choice.dataset.language;
+function initLanguagePage() {
+    const container = document.getElementById('language-container');
+    
+    // Clear container
+    container.innerHTML = '';
+    
+    // Populate languages from languageData
+    for (const [langCode, langInfo] of Object.entries(languageData)) {
+        const langElement = document.createElement('div');
+        langElement.className = 'language-choice';
+        langElement.dataset.language = langCode;
+        
+        langElement.innerHTML = `
+            <div class="language-letter">${langInfo.sampleChar}</div>
+            <div class="language-name">${langInfo.displayName}</div>
+        `;
+        
+        langElement.addEventListener('click', () => {
+            sessionStorage.setItem('currentLanguage', langCode);
             window.location.href = 'theme.html';
         });
-    });
+        
+        container.appendChild(langElement);
+    }
 }
 
-function initThemeSelection() {
+function initThemePage() {
+    const language = sessionStorage.getItem('currentLanguage');
     const themeContainer = document.getElementById('theme-container');
-    const language = currentLanguage;
     
-    if (language && subjects[language]) {
-        const themes = subjects[language].themes;
+    if (language && languageData[language]) {
+        const themes = languageData[language].themes;
+        
+        // Clear previous content
+        themeContainer.innerHTML = '';
         
         for (const [themeKey, themeData] of Object.entries(themes)) {
             const themeElement = document.createElement('div');
@@ -61,7 +95,7 @@ function initThemeSelection() {
             `;
             
             themeElement.addEventListener('click', () => {
-                currentTheme = themeKey;
+                sessionStorage.setItem('currentTheme', themeKey);
                 window.location.href = `quiz.html?language=${language}&theme=${themeKey}`;
             });
             
@@ -76,13 +110,15 @@ function initThemeSelection() {
 }
 
 function initQuizPage() {
-    // Get URL parameters
+    // Get parameters from URL or sessionStorage
     const urlParams = new URLSearchParams(window.location.search);
-    const language = urlParams.get('language');
-    const theme = urlParams.get('theme');
+    const language = urlParams.get('language') || sessionStorage.getItem('currentLanguage');
+    const theme = urlParams.get('theme') || sessionStorage.getItem('currentTheme');
     
+    // Quiz state variables
     let questions = [];
     let currentQuestionIndex = 0;
+    let score = 0;
     let audioElement = new Audio();
     
     // DOM elements
@@ -91,25 +127,30 @@ function initQuizPage() {
     const audioButton = document.querySelector('.audio-button');
     const feedbackElement = document.querySelector('.feedback');
     const nextButton = document.getElementById('next-button');
+    const scoreElement = document.createElement('div');
+    scoreElement.className = 'score-display';
+    document.querySelector('.quiz-container').prepend(scoreElement);
     
     // Load questions
     fetch(`data/${language}/${theme}/questions.json`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
         .then(data => {
             questions = data;
+            updateScore();
             loadQuestion();
         })
         .catch(error => {
             console.error('Error loading questions:', error);
-            feedbackElement.textContent = 'Error loading questions. Please try again.';
+            questionElement.textContent = 'Error loading questions';
+            feedbackElement.textContent = 'Please check your data files and try again.';
         });
     
     function loadQuestion() {
         if (currentQuestionIndex >= questions.length) {
-            questionElement.textContent = 'Quiz Completed!';
-            choiceElements.forEach(el => el.style.display = 'none');
-            nextButton.style.display = 'none';
-            feedbackElement.textContent = `You've completed all ${questions.length} questions!`;
+            showQuizComplete();
             return;
         }
         
@@ -119,47 +160,71 @@ function initQuizPage() {
         // Load choices
         question.choices.forEach((choice, index) => {
             choiceElements[index].textContent = choice;
+            choiceElements[index].style.backgroundColor = '#2196F3';
+            choiceElements[index].style.pointerEvents = 'auto';
         });
         
         // Load audio
-        audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
-        playAudio();
+        if (question.audio) {
+            audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
+            audioButton.style.display = 'block';
+            playAudio();
+        } else {
+            audioButton.style.display = 'none';
+        }
         
-        // Reset feedback and choices
+        // Reset feedback
         feedbackElement.textContent = '';
-        choiceElements.forEach(el => {
-            el.style.backgroundColor = '#2196F3';
-            el.style.pointerEvents = 'auto';
-        });
+        nextButton.style.display = 'none';
     }
     
     function playAudio() {
         audioElement.play().catch(e => console.log('Audio play failed:', e));
     }
     
+    function checkAnswer(selectedIndex) {
+        const correctIndex = questions[currentQuestionIndex].choices.indexOf(
+            questions[currentQuestionIndex].answer
+        );
+        
+        if (selectedIndex === correctIndex) {
+            choiceElements[selectedIndex].style.backgroundColor = '#4CAF50';
+            feedbackElement.textContent = 'Correct! ' + questions[currentQuestionIndex].explanation;
+            score++;
+            updateScore();
+        } else {
+            choiceElements[selectedIndex].style.backgroundColor = '#f44336';
+            choiceElements[correctIndex].style.backgroundColor = '#4CAF50';
+            feedbackElement.textContent = 'Incorrect. ' + questions[currentQuestionIndex].explanation;
+        }
+        
+        // Disable further selections
+        choiceElements.forEach(choice => {
+            choice.style.pointerEvents = 'none';
+        });
+        
+        nextButton.style.display = 'block';
+    }
+    
+    function updateScore() {
+        scoreElement.textContent = `Score: ${score}/${currentQuestionIndex}`;
+    }
+    
+    function showQuizComplete() {
+        questionElement.textContent = 'Quiz Completed!';
+        choiceElements.forEach(el => el.style.display = 'none');
+        audioButton.style.display = 'none';
+        nextButton.style.display = 'none';
+        feedbackElement.textContent = `Final Score: ${score}/${questions.length}`;
+        scoreElement.textContent = '';
+    }
+    
     // Event listeners
     audioButton.addEventListener('click', playAudio);
     
     choiceElements.forEach(el => {
-        el.addEventListener('click', () => {
-            const selectedIndex = parseInt(el.dataset.index);
-            const correctIndex = questions[currentQuestionIndex].choices.indexOf(
-                questions[currentQuestionIndex].answer
-            );
-            
-            if (selectedIndex === correctIndex) {
-                el.style.backgroundColor = '#4CAF50';
-                feedbackElement.textContent = 'Correct! ' + questions[currentQuestionIndex].explanation;
-            } else {
-                el.style.backgroundColor = '#f44336';
-                choiceElements[correctIndex].style.backgroundColor = '#4CAF50';
-                feedbackElement.textContent = 'Incorrect. ' + questions[currentQuestionIndex].explanation;
-            }
-            
-            // Disable further selections
-            choiceElements.forEach(choice => {
-                choice.style.pointerEvents = 'none';
-            });
+        el.addEventListener('click', function() {
+            checkAnswer(parseInt(this.dataset.index));
         });
     });
     
