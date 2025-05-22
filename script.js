@@ -1,9 +1,37 @@
-// Language data (keep this at the top)
 const languageData = {
-    'bengali': { /* ... */ },
-    'gujarati': { /* ... */ },
-    'hindi': { /* ... */ },
-    'tamil': { /* ... */ }
+    'bengali': {
+        displayName: 'Bengali',
+        sampleChar: 'ব',
+        themes: {
+            'letterRecognition': { displayName: 'Letter Recognition' },
+            'wordFormation': { displayName: 'Word Formation' }
+        }
+    },
+    'gujarati': {
+        displayName: 'Gujarati',
+        sampleChar: 'ગ',
+        themes: {
+            'letterRecognition': { displayName: 'Letter Recognition' },
+            'wordFormation': { displayName: 'Word Formation' }
+        }
+    },
+    'hindi': {
+        displayName: 'Hindi',
+        sampleChar: 'ह',
+        themes: {
+            'letterRecognition': { displayName: 'Letter Recognition' },
+            'wordFormation': { displayName: 'Word Formation' }
+        }
+    },
+    'tamil': {
+        displayName: 'Tamil',
+        sampleChar: 'த',
+        themes: {
+            'letterRecognition': { displayName: 'Letter Recognition' },
+            'wordFormation': { displayName: 'Word Formation' }
+        }
+    }
+    // Add more languages here following the same pattern
 };
 
 // Initialization (keep this simple)
