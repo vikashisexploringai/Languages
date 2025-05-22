@@ -346,7 +346,6 @@ function initQuizPage() {
         
         // Update question display
         questionButton.textContent = question.question;
-        questionButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
         // Shuffle the choices array
         const shuffledChoices = shuffleArray([...question.choices]);
@@ -359,7 +358,7 @@ function initQuizPage() {
             choiceElements[index].dataset.originalIndex = question.choices.indexOf(choice);
         });
         
-        // Load and play audio
+        // Load audio
         if (question.audio) {
             audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
             playAudio();
@@ -368,6 +367,20 @@ function initQuizPage() {
         // Reset feedback and hide next button
         feedbackElement.textContent = '';
         nextButton.style.display = 'none';
+        
+        // Ensure question and choices are fully visible
+        setTimeout(() => {
+            const questionRect = questionButton.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            
+            // Calculate needed scroll position
+            if (questionRect.top < 20 || questionRect.bottom > viewportHeight - 100) {
+                window.scrollTo({
+                    top: window.scrollY + questionRect.top - 20,
+                    behavior: 'smooth'
+                });
+            }
+        }, 50);
     }
     
     function setupEventListeners() {
@@ -400,8 +413,16 @@ function initQuizPage() {
                     choice.style.pointerEvents = 'none';
                 });
                 
-                // Show next button
+                // Show next button and ensure visibility
                 nextButton.style.display = 'block';
+                
+                // Keep question visible after selection
+                setTimeout(() => {
+                    questionButton.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
             });
         });
         
@@ -421,5 +442,13 @@ function initQuizPage() {
         choiceElements.forEach(el => el.style.display = 'none');
         nextButton.style.display = 'none';
         feedbackElement.textContent = 'Quiz completed!';
+        
+        // Scroll to show completion message
+        setTimeout(() => {
+            questionButton.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }, 100);
     }
 }
