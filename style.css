@@ -364,3 +364,18 @@ body {
     text-align: center;
     margin-top: 0.5rem;
 }
+.final-score {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 1rem 0;
+}
+.final-score span {
+    color: #4CAF50;
+}
+.completion-message {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #666;
+    margin-top: 0.5rem;
+}
