@@ -114,7 +114,7 @@ body {
     min-height: 2rem;
 }
 
-.nav-button {
+.back-button {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -126,7 +126,7 @@ body {
     transition: all 0.3s;
 }
 
-.nav-button:hover {
+.back-button:hover {
     background-color: #45a049;
 }
 
@@ -200,7 +200,7 @@ body {
     display: none;
 }
 
-/* Replace existing .nav-button styles with these */
+
 #next-button {
     background-color: #4CAF50;
     color: white;
@@ -221,7 +221,3 @@ body {
     background-color: #45a049;
 }
 
-/* Remove any existing .nav-button styles if they're conflicting */
-.nav-button {
-    all: unset;
-}
