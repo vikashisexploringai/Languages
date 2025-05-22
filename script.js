@@ -1,4 +1,4 @@
-// All language data in one place - easy to add more
+'wordFormation': { displayName: 'Word Formation' }// All language data in one place - easy to add more
 const languageData = {
     'bengali': {
         displayName: 'Bengali',
@@ -12,7 +12,8 @@ const languageData = {
         displayName: 'Gujarati',
         sampleChar: 'ગ',
         themes: {
-            'letterRecognition': { displayName: 'Letter Recognition' }
+            'letterRecognition': { displayName: 'Letter Recognition' },
+            'wordFormation': { displayName: 'Word Formation' }
         }
     },
     'hindi': {
@@ -20,14 +21,15 @@ const languageData = {
         sampleChar: 'ह',
         themes: {
             'letterRecognition': { displayName: 'Letter Recognition' },
-            'basicWords': { displayName: 'Basic Words' }
+            'wordFormation': { displayName: 'Word Formation' }
         }
     },
     'tamil': {
         displayName: 'Tamil',
         sampleChar: 'த',
         themes: {
-            'letterRecognition': { displayName: 'Letter Recognition' }
+            'letterRecognition': { displayName: 'Letter Recognition' },
+            'wordFormation': { displayName: 'Word Formation' }
         }
     }
     // Add more languages here following the same pattern
