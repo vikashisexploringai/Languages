@@ -111,7 +111,7 @@ function initThemePage() {
     });
 }
 
-function initQuizPage() {
+/* function initQuizPage() {
     // Get quiz parameters
     const urlParams = new URLSearchParams(window.location.search);
     const language = urlParams.get('language') || sessionStorage.getItem('currentLanguage');
@@ -289,5 +289,155 @@ function loadQuestion() {
         nextButton.style.display = 'none';
         feedbackElement.textContent = `Final Score: ${score}/${questions.length}`;
         scoreElement.textContent = '';
+    }
+}
+*/
+function initQuizPage() {
+    // Get quiz parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const language = urlParams.get('language') || sessionStorage.getItem('currentLanguage');
+    const theme = urlParams.get('theme') || sessionStorage.getItem('currentTheme');
+    
+    // Quiz state variables
+    let questions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let audioElement = new Audio();
+    
+    // DOM elements
+    const questionButton = document.getElementById('question-button');
+    const choiceElements = document.querySelectorAll('.choice');
+    const feedbackElement = document.querySelector('.feedback');
+    const nextButton = document.getElementById('next-button');
+    
+    // Create and position score display - CHANGED TO FIXED POSITION
+    const scoreElement = document.createElement('div');
+    scoreElement.className = 'score-display';
+    document.body.appendChild(scoreElement); // Added to body instead of container
+    
+    // Load and shuffle questions
+    fetch(`data/${language}/${theme}/questions.json`)
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            questions = shuffleArray(data);
+            updateScore(); // Initialize score display
+            loadQuestion();
+            setupEventListeners();
+        })
+        .catch(error => {
+            console.error('Error loading questions:', error);
+            questionButton.textContent = '⚠️';
+            feedbackElement.textContent = 'Error loading questions. Please try again.';
+        });
+
+    // Fisher-Yates shuffle algorithm
+    function shuffleArray(array) {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    }
+    
+    function loadQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            showQuizComplete();
+            return;
+        }
+        
+        const question = questions[currentQuestionIndex];
+        
+        // Update question display
+        questionButton.textContent = question.question;
+        questionButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Shuffle the choices array
+        const shuffledChoices = shuffleArray([...question.choices]);
+        
+        // Update choices with shuffled options
+        shuffledChoices.forEach((choice, index) => {
+            choiceElements[index].textContent = choice;
+            choiceElements[index].style.backgroundColor = '#2196F3';
+            choiceElements[index].style.pointerEvents = 'auto';
+            choiceElements[index].dataset.originalIndex = question.choices.indexOf(choice);
+        });
+        
+        // Load and play audio
+        if (question.audio) {
+            audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
+            playAudio();
+        }
+        
+        // Reset feedback and hide next button
+        feedbackElement.textContent = '';
+        nextButton.style.display = 'none';
+        
+        // Ensure score is visible
+        updateScore();
+    }
+    
+    function setupEventListeners() {
+        // Question button plays audio
+        questionButton.addEventListener('click', playAudio);
+        
+        // Choice buttons check answers
+        choiceElements.forEach(el => {
+            el.addEventListener('click', function() {
+                const selectedOriginalIndex = parseInt(this.dataset.originalIndex);
+                const correctOriginalIndex = questions[currentQuestionIndex].choices.indexOf(
+                    questions[currentQuestionIndex].answer
+                );
+                
+                // Visual feedback
+                if (selectedOriginalIndex === correctOriginalIndex) {
+                    this.style.backgroundColor = '#4CAF50';
+                    feedbackElement.textContent = 'Correct! ' + questions[currentQuestionIndex].explanation;
+                    score++;
+                    updateScore();
+                } else {
+                    this.style.backgroundColor = '#f44336';
+                    // Find and highlight correct choice
+                    Array.from(choiceElements).find(choice => 
+                        parseInt(choice.dataset.originalIndex) === correctOriginalIndex
+                    ).style.backgroundColor = '#4CAF50';
+                    feedbackElement.textContent = 'Incorrect. ' + questions[currentQuestionIndex].explanation;
+                }
+                
+                // Disable further selections
+                choiceElements.forEach(choice => {
+                    choice.style.pointerEvents = 'none';
+                });
+                
+                // Show next button
+                nextButton.style.display = 'block';
+            });
+        });
+        
+        // Next button loads next question
+        nextButton.addEventListener('click', () => {
+            currentQuestionIndex++;
+            loadQuestion();
+        });
+    }
+    
+    function playAudio() {
+        audioElement.play().catch(e => console.log('Audio play failed:', e));
+    }
+    
+    function updateScore() {
+        scoreElement.textContent = `Score: ${score}/${currentQuestionIndex}`;
+        scoreElement.style.display = 'block'; // Ensure it's always visible
+    }
+    
+    function showQuizComplete() {
+        questionButton.textContent = '🎉';
+        choiceElements.forEach(el => el.style.display = 'none');
+        nextButton.style.display = 'none';
+        feedbackElement.textContent = `Final Score: ${score}/${questions.length}`;
+        scoreElement.textContent = `Final: ${score}/${questions.length}`;
     }
 }
