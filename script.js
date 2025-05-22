@@ -134,14 +134,15 @@ function initQuizPage() {
     scoreElement.className = 'score-display';
     document.querySelector('.quiz-container').prepend(scoreElement);
     
-    // Load questions
+    // Load and shuffle questions
     fetch(`data/${language}/${theme}/questions.json`)
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok');
             return response.json();
         })
         .then(data => {
-            questions = data;
+            // Shuffle the questions array
+            questions = shuffleArray(data);
             updateScore();
             loadQuestion();
             
@@ -154,144 +155,94 @@ function initQuizPage() {
             feedbackElement.textContent = 'Error loading questions. Please try again.';
         });
     
+    // Fisher-Yates shuffle algorithm
+    function shuffleArray(array) {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    }
+    
     function loadQuestion() {
-    if (currentQuestionIndex >= questions.length) {
-        showQuizComplete();
-        return;
-    }
-
-    const question = questions[currentQuestionIndex];
-    questionButton.textContent = question.question;
-
-    // Reset UI
-    questionButton.style.visibility = 'hidden'; // Hide temporarily
-    feedbackElement.textContent = '';
-    nextButton.style.display = 'none';
-
-    // Load choices
-    question.choices.forEach((choice, index) => {
-        choiceElements[index].textContent = choice;
-        choiceElements[index].style.backgroundColor = '#2196F3';
-        choiceElements[index].style.pointerEvents = 'auto';
-    });
-
-    // Load audio
-    if (question.audio) {
-        audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
-        playAudio();
-    }
-
-    // Ensure proper positioning
-    setTimeout(() => {
-        questionButton.style.visibility = 'visible';
-        questionButton.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-            inline: 'center'
+        if (currentQuestionIndex >= questions.length) {
+            showQuizComplete();
+            return;
+        }
+        
+        const question = questions[currentQuestionIndex];
+        
+        // Update question display
+        questionButton.textContent = question.question;
+        questionButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Shuffle the choices array
+        const shuffledChoices = shuffleArray([...question.choices]);
+        
+        // Update choices with shuffled options
+        shuffledChoices.forEach((choice, index) => {
+            choiceElements[index].textContent = choice;
+            choiceElements[index].style.backgroundColor = '#2196F3';
+            choiceElements[index].style.pointerEvents = 'auto';
+            
+            // Store original index for answer checking
+            choiceElements[index].dataset.originalIndex = question.choices.indexOf(choice);
         });
         
-        // Extra insurance for mobile browsers
-        window.scrollTo({
-            top: questionButton.offsetTop - 100,
-            behavior: 'smooth'
-        });
-    }, 50);
-}
+        // Load and play audio
+        if (question.audio) {
+            audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
+            playAudio();
+        }
+        
+        // Reset feedback
+        feedbackElement.textContent = '';
+        nextButton.style.display = 'none';
+    }
     
     function setupEventListeners() {
-    // Configure the next button appearance
-    nextButton.innerHTML = '➔'; // Arrow symbol
-    nextButton.style.cssText = `
-        background-color: #2196F3; /* Blue instead of green */
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        font-size: 2.5rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: none;
-        margin: 20px auto;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        position: relative;
-        overflow: hidden;
-    `;
-
-    // Add hover effect
-    nextButton.addEventListener('mouseenter', () => {
-        nextButton.style.transform = 'scale(1.1)';
-        nextButton.style.backgroundColor = '#1976D2';
-        nextButton.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
-    });
-
-    nextButton.addEventListener('mouseleave', () => {
-        nextButton.style.transform = 'scale(1)';
-        nextButton.style.backgroundColor = '#2196F3';
-        nextButton.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-    });
-
-    // Add click effect
-    nextButton.addEventListener('mousedown', () => {
-        nextButton.style.transform = 'scale(0.95)';
-    });
-
-    nextButton.addEventListener('mouseup', () => {
-        nextButton.style.transform = 'scale(1.1)';
-    });
-
-    // Next question functionality
-    nextButton.addEventListener('click', () => {
-        currentQuestionIndex++;
-        loadQuestion();
-    });
-
-    // Question button audio playback
-    questionButton.addEventListener('click', playAudio);
-
-    // Choice selection handlers
-    choiceElements.forEach((choice, index) => {
-        choice.addEventListener('click', function() {
-            // Disable all choices first
-            choiceElements.forEach(c => {
-                c.style.pointerEvents = 'none';
+        // Question button plays audio
+        questionButton.addEventListener('click', playAudio);
+        
+        // Choice buttons check answers
+        choiceElements.forEach(el => {
+            el.addEventListener('click', function() {
+                const selectedOriginalIndex = parseInt(this.dataset.originalIndex);
+                const correctOriginalIndex = questions[currentQuestionIndex].choices.indexOf(
+                    questions[currentQuestionIndex].answer
+                );
+                
+                // Visual feedback
+                if (selectedOriginalIndex === correctOriginalIndex) {
+                    this.style.backgroundColor = '#4CAF50';
+                    feedbackElement.textContent = 'Correct! ' + questions[currentQuestionIndex].explanation;
+                    score++;
+                    updateScore();
+                } else {
+                    this.style.backgroundColor = '#f44336';
+                    // Find and highlight correct choice
+                    Array.from(choiceElements).find(choice => 
+                        parseInt(choice.dataset.originalIndex) === correctOriginalIndex
+                    ).style.backgroundColor = '#4CAF50';
+                    feedbackElement.textContent = 'Incorrect. ' + questions[currentQuestionIndex].explanation;
+                }
+                
+                // Disable further selections
+                choiceElements.forEach(choice => {
+                    choice.style.pointerEvents = 'none';
+                });
+                
+                nextButton.style.display = 'block';
             });
-
-            const correctIndex = questions[currentQuestionIndex].choices.indexOf(
-                questions[currentQuestionIndex].answer
-            );
-
-            // Visual feedback
-            if (index === correctIndex) {
-                this.style.backgroundColor = '#4CAF50';
-                feedbackElement.textContent = 'Correct! ' + questions[currentQuestionIndex].explanation;
-                score++;
-                updateScore();
-            } else {
-                this.style.backgroundColor = '#f44336';
-                choiceElements[correctIndex].style.backgroundColor = '#4CAF50';
-                feedbackElement.textContent = 'Incorrect. ' + questions[currentQuestionIndex].explanation;
-            }
-
-            // Show next button
-            nextButton.style.display = 'block';
-            nextButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
-
-        // Add hover effects to choices
-        choice.addEventListener('mouseenter', () => {
-            if (choice.style.pointerEvents !== 'none') {
-                choice.style.transform = 'scale(1.05)';
-                choice.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
-            }
+        
+        // Next button loads next question
+        nextButton.addEventListener('click', () => {
+            currentQuestionIndex++;
+            loadQuestion();
         });
-
-        choice.addEventListener('mouseleave', () => {
-            choice.style.transform = 'scale(1)';
-            choice.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-        });
-    });
-}
+    }
     
     function playAudio() {
         audioElement.play().catch(e => console.log('Audio play failed:', e));
