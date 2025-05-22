@@ -333,7 +333,7 @@ questionButton.style.padding = qConfig.padding;
     // Quiz state variables
     let questions = [];
     let currentQuestionIndex = 0;
-    let score = 0; // Added score tracking
+    let score = 0;
     let audioElement = new Audio();
     
     // DOM elements
@@ -345,20 +345,30 @@ questionButton.style.padding = qConfig.padding;
     
     // Load questions
     fetch(`data/${language}/${theme}/questions.json`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error('Network error');
+            return response.json();
+        })
         .then(data => {
             questions = shuffleArray(data);
             setupEventListeners();
-            loadQuestion(true); // Initial load with scroll adjustment
+            loadQuestion(true);
         })
-        .catch(handleLoadError);
+        .catch(error => {
+            console.error('Error:', error);
+            questionButton.textContent = '⚠️';
+            feedbackElement.textContent = 'Failed to load questions. Please try again.';
+        });
 
     function loadQuestion(initialLoad = false) {
+        // Quiz completion check
         if (currentQuestionIndex >= questions.length) {
             return showQuizComplete();
         }
 
         const question = questions[currentQuestionIndex];
+        
+        // Update question display
         questionButton.textContent = question.question;
         
         // Reset UI state
@@ -367,6 +377,7 @@ questionButton.style.padding = qConfig.padding;
         choiceElements.forEach(el => {
             el.style.pointerEvents = 'auto';
             el.style.backgroundColor = '#2196F3';
+            el.style.display = 'flex'; // Ensure choices are visible
         });
 
         // Shuffle and load choices
@@ -381,7 +392,7 @@ questionButton.style.padding = qConfig.padding;
             playAudio();
         }
 
-        // Scroll handling
+        // Scroll management
         if (initialLoad) {
             quizContainer.scrollTo(0, 0);
         } else {
@@ -389,9 +400,23 @@ questionButton.style.padding = qConfig.padding;
         }
     }
 
+    function ensureQuestionVisible() {
+        const questionRect = questionButton.getBoundingClientRect();
+        const containerRect = quizContainer.getBoundingClientRect();
+        
+        if (questionRect.top < containerRect.top + 20) {
+            quizContainer.scrollBy({
+                top: questionRect.top - containerRect.top - 20,
+                behavior: 'smooth'
+            });
+        }
+    }
+
     function setupEventListeners() {
+        // Question audio
         questionButton.addEventListener('click', playAudio);
         
+        // Choice selection
         choiceElements.forEach(choice => {
             choice.addEventListener('click', function() {
                 const question = questions[currentQuestionIndex];
@@ -408,7 +433,7 @@ questionButton.style.padding = qConfig.padding;
                 choiceElements[correctIdx].style.backgroundColor = '#4CAF50';
                 feedbackElement.textContent = (selectedIdx === correctIdx ? 'Correct! ' : 'Incorrect. ') + question.explanation;
                 
-                // Disable further selections
+                // Lock choices
                 choiceElements.forEach(c => c.style.pointerEvents = 'none');
                 nextButton.style.display = 'block';
                 
@@ -417,6 +442,7 @@ questionButton.style.padding = qConfig.padding;
             });
         });
 
+        // Next question
         nextButton.addEventListener('click', () => {
             currentQuestionIndex++;
             loadQuestion();
@@ -424,22 +450,38 @@ questionButton.style.padding = qConfig.padding;
     }
 
     function showQuizComplete() {
-        questionButton.textContent = '🎉 Quiz Completed!';
+        // Update display
+        questionButton.textContent = 'Quiz Completed!';
+        questionButton.style.fontSize = '3rem';
         choiceElements.forEach(el => el.style.display = 'none');
         nextButton.style.display = 'none';
         
-        // Show final score only at the end
+        // Show final score
         feedbackElement.innerHTML = `
             <div class="final-score">
-                You got ${score} out of ${questions.length} correct!
+                Your Score: <span>${score}/${questions.length}</span>
             </div>
             <div class="completion-message">
-                Great job! Keep practicing!
+                ${getCompletionMessage(score/questions.length)}
             </div>
         `;
         
+        // Scroll to top
         quizContainer.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // [Keep all other helper functions the same]
-}
+    // Helper functions
+    function shuffleArray(array) {
+        return [...array].sort(() => Math.random() - 0.5);
+    }
+
+    function playAudio() {
+        audioElement.play().catch(e => console.log('Audio error:', e));
+    }
+
+    function getCompletionMessage(percentage) {
+        if (percentage >= 0.8) return 'Excellent work! 🎯';
+        if (percentage >= 0.5) return 'Good job! Keep practicing! 👍';
+        return 'Keep learning! You\'ll improve! 💪';
+    }
+    }
