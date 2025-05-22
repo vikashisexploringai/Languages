@@ -174,32 +174,34 @@ function loadQuestion() {
 
     const question = questions[currentQuestionIndex];
     
-    // Detect device type
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const isTablet = window.matchMedia("(max-width: 1024px)").matches;
+    // Responsive sizing configuration
+    const sizeConfig = {
+        question: {
+            mobile: { size: '6rem', padding: '1.5rem 3rem', width: '90%' },
+            desktop: { size: '5rem', padding: '1.25rem 2.5rem', width: '80%' }
+        },
+        choices: {
+            mobile: { size: '7rem', padding: '1.5rem 0' },
+            desktop: { size: '6rem', padding: '1.25rem 0' }
+        }
+    };
     
-    // Responsive sizing
-    const baseQuestionSize = isMobile ? 6 : isTablet ? 5.5 : 5;
-    const baseChoiceSize = isMobile ? 7 : isTablet ? 6.5 : 6;
+    // Apply responsive styles to question button
+    const isMobile = window.innerWidth <= 768;
+    const qConfig = isMobile ? sizeConfig.question.mobile : sizeConfig.question.desktop;
+    const cConfig = isMobile ? sizeConfig.choices.mobile : sizeConfig.choices.desktop;
     
-    // Apply responsive styles
-    questionButton.style.cssText = `
-        font-size: ${baseQuestionSize}rem;
-        padding: ${isMobile ? '1.5rem' : '1.25rem'} ${isMobile ? '3rem' : '2.5rem'};
-        margin: ${isMobile ? '0.5rem auto' : '1rem auto'};
-        min-width: ${isMobile ? '90%' : '80%'};
-        max-width: ${isMobile ? '95vw' : '600px'};
-    `;
+    questionButton.style.fontSize = qConfig.size;
+    questionButton.style.padding = qConfig.padding;
+    questionButton.style.width = qConfig.width;
     
-    // Apply to all choices
+    // Reset and style choice buttons
     choiceElements.forEach(choice => {
-        choice.style.cssText = `
-            font-size: ${baseChoiceSize}rem;
-            padding: ${isMobile ? '1.5rem 0' : '1.25rem 0'};
-            margin: ${isMobile ? '0.25rem' : '0.5rem'};
-            min-width: ${isMobile ? '45%' : '40%'};
-            flex: 1 1 auto;
-        `;
+        choice.style.fontSize = cConfig.size;
+        choice.style.padding = cConfig.padding;
+        choice.style.backgroundColor = '#2196F3';
+        choice.style.pointerEvents = 'auto';
+        choice.style.margin = '0.5rem';
     });
     
     // Set question content
@@ -209,12 +211,10 @@ function loadQuestion() {
     const shuffledChoices = shuffleArray([...question.choices]);
     shuffledChoices.forEach((choice, index) => {
         choiceElements[index].textContent = choice;
-        choiceElements[index].style.backgroundColor = '#2196F3';
-        choiceElements[index].style.pointerEvents = 'auto';
         choiceElements[index].dataset.originalIndex = question.choices.indexOf(choice);
     });
     
-    // Load and auto-play audio
+    // Load audio
     if (question.audio) {
         audioElement.src = `data/${language}/${theme}/audio/${question.audio}`;
         playAudio();
@@ -224,12 +224,27 @@ function loadQuestion() {
     feedbackElement.textContent = '';
     nextButton.style.display = 'none';
     
+    // Ensure next button maintains its styling
+    nextButton.style.cssText = `
+        background-color: #2196F3;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: none;
+        margin: 20px auto;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    `;
+    
     // Ensure proper visibility
     setTimeout(() => {
         questionButton.scrollIntoView({
-            behavior: 'auto',
-            block: 'center',
-            inline: 'center'
+            behavior: 'smooth',
+            block: 'center'
         });
     }, 50);
 }
