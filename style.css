@@ -328,3 +328,13 @@ body {
         padding: 8px 12px;
     }
 }
+
+.question-button {
+    scroll-margin-top: 80px; /* Space for fixed headers */
+    scroll-margin-bottom: 20px; /* Space for feedback */
+}
+
+.quiz-container {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
