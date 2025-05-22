@@ -303,3 +303,28 @@ body {
         padding: 1.5rem;
     }
 }
+
+.score-display {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2196F3;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 100;
+    text-align: center;
+}
+
+/* Add media query for mobile */
+@media (max-width: 768px) {
+    .score-display {
+        top: 10px;
+        right: 10px;
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+}
